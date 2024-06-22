@@ -25,15 +25,43 @@
                 width: 200px;
                 height: 120px;
             }
+            
+            .left-nav {
+                position: absolute;
+                
+                .left-nav__title {
+                    background-color: #435D7D;
+                    padding: 8px;
+                    color: white;
+                    border-radius: 2px
+                }
+                
+                .left-nav__item {
+                    display: block;
+                    text-decoration: none;
+                    padding: 8px;
+                    color: black;
+                    font-size: 14px;
+                }
+                
+                .left-nav__item:hover {
+                    background-color: #ccc;
+                }
+            }
         </style>
     <body>
-
+        <div class="left-nav">
+            <h3 class="left-nav__title">Manage Store</h3>
+            <a href="/SWP/managercontrol" class="left-nav__item">Product</a>
+            <a href="/SWP/manage-user" class="left-nav__item">User</a>
+            <a href="/SWP/report" class="left-nav__item">Report</a>
+        </div>
         <div class="container">
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Manage <b>Product</b></h2>
+                            <h2><b>Product</b></h2>
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="homecontroll" class="btn btn-primary"><i class="material-icons">home</i>Home</a>

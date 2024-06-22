@@ -16,6 +16,7 @@ import model.Account;
 import model.Category;
 import model.Order;
 import model.Product;
+import model.UserInfo;
 
 /**
  *
@@ -30,6 +31,23 @@ public class ProductDAO {
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
+    public List<UserInfo> listUserInfo() {
+        List<UserInfo> list = new ArrayList<>();
+        String query = "select * from dbo.infor";
+        
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(query);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                UserInfo userInfo = new UserInfo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                list.add(userInfo);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+    
     public List<Product> listProduct() {
         List<Product> list = new ArrayList<>();
         String query = "select * from dbo.Product";
