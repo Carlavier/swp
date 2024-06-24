@@ -81,13 +81,14 @@
                             </th>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Image</th>
-                            <th>Price</th>
-                            <th>Actions</th>
+                            <th>Birth Date</th>
+                            <th>Phone number</th>
+                            <th>Email</th>
+                            <th>Address</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${listPM}" var="o">
+                        <c:forEach items="${listUserInfo}" var="o">
                             <tr>
                                 <td>
                                     <span class="custom-checkbox">
@@ -95,15 +96,16 @@
                                         <label for="checkbox1"></label>
                                     </span>
                                 </td>
-                                <td>${o.id}</td>
-                                <td>${o.name}</td>
+                                <td>${o.getUid()}</td>
+                                <td>${o.getName()}</td>
+                                <td>${o.getBirth()}</td>
+                                <td>${o.getPhone()}</td>
+                                <td>${o.getEmail()}</td>
+                                <td>${o.getAddress()}</td>
                                 <td>
-                                    <img src="${o.image}">
-                                </td>
-                                <td>${o.price} $</td>
-                                <td>
-                                    <a href="loadcontrol?pid=${o.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="#deleteEmployeeModal" class="delete" onclick="showMess(${o.id})" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a href="loadcontrol?pid=${o.getUid()}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    <a href="#deleteEmployeeModal" class="delete" onclick="showMess(${o.getUid()})" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -161,6 +163,44 @@
             </div>
         </div>
   
+        <div id="editEmployeeModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="edit-user" method="POST">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Add Product</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input name="name" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input name="image" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input name="price" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Title</label>
+                                <textarea name="title" class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input type="submit" class="btn btn-success" value="Add">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
        
         <div id="deleteEmployeeModal" class="modal fade">
             <div class="modal-dialog">
