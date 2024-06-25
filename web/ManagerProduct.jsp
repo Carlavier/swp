@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="homecontroll" class="btn btn-primary"><i class="material-icons">home</i>Home</a>
-                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
+                            <a href="#addWatchModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
 						
                         </div>
                     </div>
@@ -102,8 +102,10 @@
                                 </td>
                                 <td>${o.price} $</td>
                                 <td>
-                                    <a href="loadcontrol?pid=${o.id}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="#deleteEmployeeModal" class="delete" onclick="showMess(${o.id})" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a 
+                                        onclick="handleEditId(${o.id}, `${o.name}`, `${o.image}`, `${o.price}`, `${o.title}`, `${o.description}`)"
+                                        href="#editWatchModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    <a style="cursor: pointer" class="delete" onclick="showMess(${o.id})"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -113,7 +115,7 @@
             </div>
         </div>
         <!-- Edit Modal HTML -->
-        <div id="addEmployeeModal" class="modal fade">
+        <div id="addWatchModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form action="addcontrol" method="POST">
@@ -161,8 +163,59 @@
             </div>
         </div>
   
+        <div id="editWatchModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="editcontrol" method="POST">
+                        <div class="modal-header">						
+                            <h4 class="modal-title">Edit Product</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">	
+                            <div class="form-group">
+                                <label>ID</label>
+                                <input name="id" type="text" class="form-control" required readonly id="edit-id">
+                            </div>
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input name="name" type="text" class="form-control" required id="edit-name">
+                            </div>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input name="image" type="text" class="form-control" required id="edit-image">
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input name="price" type="text" class="form-control" required id="edit-price">
+                            </div>
+                            <div class="form-group">
+                                <label>Title</label>
+                                <textarea name="title" class="form-control" required id="edit-title"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control" required id="edit-description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select name="category" class="form-select" aria-label="Default select example" id="edit-select">
+                                    <c:forEach items="${listCC}" var="o">
+                                        <option value="${o.cid}">${o.cname}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <input onclick="console.log(document.querySelector(`#edit-id`).value)" type="submit" class="btn btn-success" value="Confirm">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
        
-        <div id="deleteEmployeeModal" class="modal fade">
+        <div id="deleteWatchModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form>
@@ -185,14 +238,20 @@
         </div>
         <script src="js/manager.js" type="text/javascript"></script>
         <script>
-                                        function showMess(id) {
-                                            var option = confirm("Are you sure to delete " + id);
-                                            if (option === true) {
-                                                window.location.href = 'deletecontrol?pid=' + id;
-
-                                            }
-
-                                        }
+            function handleEditId(id, name, image, price, title, description) {
+                document.querySelector("#edit-id").value = id;
+                document.querySelector("#edit-name").value = name;
+                document.querySelector("#edit-image").value = image;
+                document.querySelector("#edit-price").value = price;
+                document.querySelector("#edit-title").value = title;
+                document.querySelector("#edit-description").value = description;
+            }
+            function showMess(id) {
+                var option = confirm("Are you sure to delete " + id);
+                if (option === true) {
+                    window.location.href = 'deletecontrol?pid=' + id;
+                }
+            }
         </script>
     </body>
 </html>

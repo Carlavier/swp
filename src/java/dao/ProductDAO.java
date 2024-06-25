@@ -235,7 +235,7 @@ public class ProductDAO {
 
             ptm.executeUpdate();
         } catch (Exception e) {
-
+            System.out.println(e);
         }
 
     }
