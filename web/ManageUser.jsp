@@ -61,11 +61,11 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2><b>Product</b></h2>
+                            <h2><b>User</b></h2>
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="homecontroll" class="btn btn-primary"><i class="material-icons">home</i>Home</a>
-                            <a href="#addWatchModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
+                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
 						
                         </div>
                     </div>
@@ -81,13 +81,14 @@
                             </th>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Image</th>
-                            <th>Price</th>
-                            <th>Actions</th>
+                            <th>Birth Date</th>
+                            <th>Phone number</th>
+                            <th>Email</th>
+                            <th>Address</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${listPM}" var="o">
+                        <c:forEach items="${listUserInfo}" var="o">
                             <tr>
                                 <td>
                                     <span class="custom-checkbox">
@@ -95,17 +96,16 @@
                                         <label for="checkbox1"></label>
                                     </span>
                                 </td>
-                                <td>${o.id}</td>
-                                <td>${o.name}</td>
+                                <td>${o.getUid()}</td>
+                                <td>${o.getName()}</td>
+                                <td>${o.getBirth()}</td>
+                                <td>${o.getPhone()}</td>
+                                <td>${o.getEmail()}</td>
+                                <td>${o.getAddress()}</td>
                                 <td>
-                                    <img src="${o.image}">
-                                </td>
-                                <td>${o.price} $</td>
-                                <td>
-                                    <a 
-                                        onclick="handleEditId(${o.id}, `${o.name}`, `${o.image}`, `${o.price}`, `${o.title}`, `${o.description}`)"
-                                        href="#editWatchModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a style="cursor: pointer" class="delete" onclick="showMess(${o.id})"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a href="loadcontrol?pid=${o.getUid()}"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                    <a href="#deleteEmployeeModal" class="delete" onclick="showMess(${o.getUid()})" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -115,7 +115,7 @@
             </div>
         </div>
         <!-- Edit Modal HTML -->
-        <div id="addWatchModal" class="modal fade">
+        <div id="addEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form action="addcontrol" method="POST">
@@ -163,59 +163,46 @@
             </div>
         </div>
   
-        <div id="editWatchModal" class="modal fade">
+        <div id="editEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="editcontrol" method="POST">
+                    <form action="edit-user" method="POST">
                         <div class="modal-header">						
-                            <h4 class="modal-title">Edit Product</h4>
+                            <h4 class="modal-title">Add Product</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
-                        <div class="modal-body">	
-                            <div class="form-group">
-                                <label>ID</label>
-                                <input name="id" type="text" class="form-control" required readonly id="edit-id">
-                            </div>
+                        <div class="modal-body">					
                             <div class="form-group">
                                 <label>Name</label>
-                                <input name="name" type="text" class="form-control" required id="edit-name">
+                                <input name="name" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Image</label>
-                                <input name="image" type="text" class="form-control" required id="edit-image">
+                                <input name="image" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Price</label>
-                                <input name="price" type="text" class="form-control" required id="edit-price">
+                                <input name="price" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Title</label>
-                                <textarea name="title" class="form-control" required id="edit-title"></textarea>
+                                <textarea name="title" class="form-control" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea name="description" class="form-control" required id="edit-description"></textarea>
+                                <textarea name="description" class="form-control" required></textarea>
                             </div>
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select name="category" class="form-select" aria-label="Default select example" id="edit-select">
-                                    <c:forEach items="${listCC}" var="o">
-                                        <option value="${o.cid}">${o.cname}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input onclick="console.log(document.querySelector(`#edit-id`).value)" type="submit" class="btn btn-success" value="Confirm">
+                            <input type="submit" class="btn btn-success" value="Add">
                         </div>
                     </form>
                 </div>
             </div>
         </div>
        
-        <div id="deleteWatchModal" class="modal fade">
+        <div id="deleteEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form>
@@ -238,20 +225,14 @@
         </div>
         <script src="js/manager.js" type="text/javascript"></script>
         <script>
-            function handleEditId(id, name, image, price, title, description) {
-                document.querySelector("#edit-id").value = id;
-                document.querySelector("#edit-name").value = name;
-                document.querySelector("#edit-image").value = image;
-                document.querySelector("#edit-price").value = price;
-                document.querySelector("#edit-title").value = title;
-                document.querySelector("#edit-description").value = description;
-            }
-            function showMess(id) {
-                var option = confirm("Are you sure to delete " + id);
-                if (option === true) {
-                    window.location.href = 'deletecontrol?pid=' + id;
-                }
-            }
+                                        function showMess(id) {
+                                            var option = confirm("Are you sure to delete " + id);
+                                            if (option === true) {
+                                                window.location.href = 'deletecontrol?pid=' + id;
+
+                                            }
+
+                                        }
         </script>
     </body>
 </html>
