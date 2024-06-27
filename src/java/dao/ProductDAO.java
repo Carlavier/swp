@@ -30,6 +30,34 @@ public class ProductDAO {
 
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+    
+    public void addInfo(int uid, String name, String birthdate, String phone, String email, String address) {
+        String sql = "insert into infor(\"uID\", \"name\", birthdate, phone, email, \"address\") values(" + uid + ", '" + name + "', '" + birthdate + "', '" + phone + "', '" + email + "', '" + address + "')";
+        System.out.println(sql);
+        
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(sql);
+            int row = ptm.executeUpdate();
+            ptm.getGeneratedKeys();
+        } catch (Exception e) {
+        }
+    }
+    
+    public int addAccount(String username, String password, String role) {
+        String sql = "insert into accs(\"user\", pass, \"role\") values('" + username + "', '" + password + "', '" + role + "')";
+        
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            int row = ptm.executeUpdate();
+            ResultSet res = ptm.getGeneratedKeys();
+            res.next();
+            return (res.getInt(1));
+        } catch (Exception e) {
+        }
+        return 0;
+    }
 
     public List<UserInfo> listUserInfo() {
         List<UserInfo> list = new ArrayList<>();
