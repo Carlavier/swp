@@ -8,14 +8,15 @@ package controller;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name="EditUser", urlPatterns={"/edit-user"})
-public class EditUser extends HttpServlet {
+@WebServlet(name="AddUser", urlPatterns={"/add-user"})
+public class AddUser extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -46,7 +47,9 @@ public class EditUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String id = request.getParameter("id");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String role = request.getParameter("role");
         String name = request.getParameter("name");
         String birthdate = request.getParameter("birthdate");
         String phone = request.getParameter("phone");
@@ -54,7 +57,8 @@ public class EditUser extends HttpServlet {
         String address = request.getParameter("address");
 
         ProductDAO dao = new ProductDAO();
-        dao.editInfo(Integer.parseInt(id), name, birthdate, phone, email, address);
+        int id = dao.addAccount(username, password, role);
+        dao.addInfo(id, name, birthdate, phone, email, address);
         
         processRequest(request, response);
     }

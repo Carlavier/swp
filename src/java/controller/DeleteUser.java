@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name="EditUser", urlPatterns={"/edit-user"})
-public class EditUser extends HttpServlet {
+@WebServlet(name="DeleteUser", urlPatterns={"/delete-user"})
+public class DeleteUser extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -27,9 +27,22 @@ public class EditUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String id = request.getParameter("id");
+        
+        ProductDAO dao = new ProductDAO();
+        dao.deleteUser(Integer.parseInt(id));
+        
         response.sendRedirect("manage-user");
     } 
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /** 
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
@@ -46,16 +59,6 @@ public class EditUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String id = request.getParameter("id");
-        String name = request.getParameter("name");
-        String birthdate = request.getParameter("birthdate");
-        String phone = request.getParameter("phone");
-        String email = request.getParameter("email");
-        String address = request.getParameter("address");
-
-        ProductDAO dao = new ProductDAO();
-        dao.editInfo(Integer.parseInt(id), name, birthdate, phone, email, address);
-        
         processRequest(request, response);
     }
 
