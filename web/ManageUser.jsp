@@ -107,7 +107,7 @@
                                         onclick="handleEditId(${o.getUid()}, `${o.getName()}`, `${o.getBirth()}`, `${o.getPhone()}`, `${o.getEmail()}`, `${o.getAddress()}`)"
                                         href="#editUserModal" class="edit" data-toggle="modal"
                                     ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="#deleteEmployeeModal" class="delete" onclick="showMess(${o.getUid()})" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                        <a class="delete" onclick="showMess(${o.getUid()})" style="cursor: pointer"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -249,7 +249,7 @@
             function showMess(id) {
                 var option = confirm("Are you sure to delete " + id);
                 if (option === true) {
-                    window.location.href = 'deletecontrol?pid=' + id;
+                    window.location.href = 'delete-user?id=' + id;
                 }
             }
         </script>

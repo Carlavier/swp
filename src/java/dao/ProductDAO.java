@@ -31,6 +31,20 @@ public class ProductDAO {
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
     
+    public void deleteUser(int uid) {
+        String sql1 = "delete from infor where \"uID\"=" + uid;
+        String sql2 = "delete from accs where \"uID\"=" + uid;
+        
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(sql1);
+            ptm.executeUpdate();
+            ptm = conn.prepareStatement(sql2);
+            ptm.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+    
     public void editInfo(int uid, String name, String birthdate, String phone, String email, String address) {
         String sql = "update infor set \"name\"='" + name + "',birthdate='" + birthdate + "',phone='" + phone + "',email='" + email + "',\"address\"='" + address + "'where \"uID\" = " + uid;
 //        System.out.println(sql);
@@ -38,8 +52,7 @@ public class ProductDAO {
         try {
             conn = DBManager.getConnection();
             ptm = conn.prepareStatement(sql);
-            int row = ptm.executeUpdate();
-            ptm.getGeneratedKeys();
+            ptm.executeUpdate();
         } catch (Exception e) {
         }
     }
