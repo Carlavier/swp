@@ -208,7 +208,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input onclick="console.log(document.querySelector(`#edit-id`).value)" type="submit" class="btn btn-success" value="Confirm">
+                            <input type="submit" class="btn btn-success" value="Confirm Edit">
                         </div>
                     </form>
                 </div>

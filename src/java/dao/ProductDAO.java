@@ -31,9 +31,21 @@ public class ProductDAO {
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
     
+    public void editInfo(int uid, String name, String birthdate, String phone, String email, String address) {
+        String sql = "update infor set \"name\"='" + name + "',birthdate='" + birthdate + "',phone='" + phone + "',email='" + email + "',\"address\"='" + address + "'where \"uID\" = " + uid;
+//        System.out.println(sql);
+
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(sql);
+            int row = ptm.executeUpdate();
+            ptm.getGeneratedKeys();
+        } catch (Exception e) {
+        }
+    }
+    
     public void addInfo(int uid, String name, String birthdate, String phone, String email, String address) {
         String sql = "insert into infor(\"uID\", \"name\", birthdate, phone, email, \"address\") values(" + uid + ", '" + name + "', '" + birthdate + "', '" + phone + "', '" + email + "', '" + address + "')";
-        System.out.println(sql);
         
         try {
             conn = DBManager.getConnection();

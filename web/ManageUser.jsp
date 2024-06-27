@@ -104,7 +104,7 @@
                                 <td>${o.getAddress()}</td>
                                 <td>
                                     <a 
-                                        onclick="handleEditId(${o.getUid()}, `${o.getName()}`, `${o.getBirth()}`, `${o.getPhone()}`, `${o.getEmail()}`, `${o.getAddress()}`)
+                                        onclick="handleEditId(${o.getUid()}, `${o.getName()}`, `${o.getBirth()}`, `${o.getPhone()}`, `${o.getEmail()}`, `${o.getAddress()}`)"
                                         href="#editUserModal" class="edit" data-toggle="modal"
                                     ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                     <a href="#deleteEmployeeModal" class="delete" onclick="showMess(${o.getUid()})" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -126,7 +126,22 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
-                            
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input name="username" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input name="password" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select name="role" class="form-select" aria-label="Default select example">
+                                    <option value="us">Normal user</option>
+                                    <option value="st">Staff</option>
+                                    <option value="ad">Administrator</option>
+                                </select>
+                            </div>  
                             <div class="form-group">
                                 <label>Name</label>
                                 <input name="name" type="text" class="form-control" required>
@@ -162,7 +177,7 @@
                 <div class="modal-content">
                     <form action="edit-user" method="POST">
                         <div class="modal-header">
-                            <h4 class="modal-title">Add User</h4>
+                            <h4 class="modal-title">Edit User</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">
@@ -171,45 +186,29 @@
                                 <input name="id" type="text" class="form-control" required readonly id="edit-id">
                             </div>
                             <div class="form-group">
-                                <label>Username</label>
-                                <input name="username" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input name="password" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Role</label>
-                                <select name="role" class="form-select" aria-label="Default select example">
-                                    <option value="us">Normal user</option>
-                                    <option value="st">Staff</option>
-                                    <option value="ad">Administrator</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label>Name</label>
-                                <input name="name" type="text" class="form-control" required>
+                                <input name="name" type="text" class="form-control" required  id="edit-name">
                             </div>
                             <div class="form-group">
                                 <label>Birthday</label>
-                                <input name="birthdate" type="date" class="form-control" required>
+                                <input name="birthdate" type="date" class="form-control" required  id="edit-birthdate">
                             </div>
                             <div class="form-group">
                                 <label>Phone number</label>
-                                <input name="phone" type="text" class="form-control" required>
+                                <input name="phone" type="text" class="form-control" required  id="edit-phone">
                             </div>
                             <div class="form-group">
                                 <label>Email Address</label>
-                                <input name="email" type="text" class="form-control" required>
+                                <input name="email" type="text" class="form-control" required  id="edit-email">
                             </div>
                             <div class="form-group">
                                 <label>Address</label>
-                                <textarea name="address" class="form-control" required></textarea>
+                                <textarea name="address" class="form-control" required  id="edit-address"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
+                            <input type="submit" class="btn btn-success" value="Confirm Edit">
                         </div>
                     </form>
                 </div>
@@ -239,6 +238,14 @@
         </div>
         <script src="js/manager.js" type="text/javascript"></script>
         <script>
+            function handleEditId(id, name, birthdate, phone, email, address) {
+                document.querySelector("#edit-id").value = id;
+                document.querySelector("#edit-name").value = name;
+                document.querySelector("#edit-birthdate").value = birthdate;
+                document.querySelector("#edit-phone").value = phone;
+                document.querySelector("#edit-email").value = email;
+                document.querySelector("#edit-address").value = address;
+            }
             function showMess(id) {
                 var option = confirm("Are you sure to delete " + id);
                 if (option === true) {
