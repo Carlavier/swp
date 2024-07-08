@@ -32,6 +32,23 @@ public class ProductDAO {
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
     
+    public List<UserInfo> listUserInfoRestricted() {
+        List<UserInfo> list = new ArrayList<>();
+        String query = "select * from dbo.infor join dbo.accs on dbo.infor.\"uID\" = dbo.accs.\"uID\" where \"role\" = 'us'";
+        
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(query);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                UserInfo userInfo = new UserInfo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+                list.add(userInfo);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+    
     public ArrayList<OrderDetail> getListOrderDetail(int orderID) {
         String sql = "select * from [OrderDetail] join [Product] on [OrderDetail].id = [Product].id where [OrderDetail].orderID = " + orderID;
         ArrayList<OrderDetail> listOrderDetail = new ArrayList<>();
