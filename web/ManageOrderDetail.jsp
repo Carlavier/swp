@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">    
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -63,12 +63,11 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2><b>Product</b></h2>
+                            <h2><b>Order Detail (Order ID: <%=request.getParameter("id")%>)</b></h2>
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="homecontroll" class="btn btn-primary"><i class="material-icons">home</i>Home</a>
-                            <a href="#addWatchModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
-						
+                            		
                         </div>
                     </div>
                 </div>
@@ -81,15 +80,15 @@
                                     <label for="selectAll"></label>
                                 </span>
                             </th>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Image</th>
-                            <th>Price</th>
-                            <th>Actions</th>
+                            <th>Order Detail ID</th>
+                            <th>Total Price</th>
+                            <th>Quantity</th>
+                            <th>Product Name</th>
+                            <th>Product Image</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${listPM}" var="o">
+                        <c:forEach items="${listOrderDetail}" var="o">
                             <tr>
                                 <td>
                                     <span class="custom-checkbox">
@@ -97,17 +96,12 @@
                                         <label for="checkbox1"></label>
                                     </span>
                                 </td>
-                                <td>${o.id}</td>
-                                <td>${o.name}</td>
+                                <td>${o.getDetailId()}</td>
+                                <td>${o.getPrice()}</td>
+                                <td>${o.getQuantity()}</td>
+                                <td>${o.getProduct().getName()}</td>
                                 <td>
-                                    <img src="${o.image}">
-                                </td>
-                                <td>${o.price} $</td>
-                                <td>
-                                    <a 
-                                        onclick="handleEditId(${o.id}, `${o.name}`, `${o.image}`, `${o.price}`, `${o.title}`, `${o.description}`)"
-                                        href="#editWatchModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a style="cursor: pointer" class="delete" onclick="showMess(${o.id})"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <img src="${o.getProduct().getImage()}" alt="alt"/>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -117,44 +111,51 @@
             </div>
         </div>
         <!-- Edit Modal HTML -->
-        <div id="addWatchModal" class="modal fade">
+        <div id="addUserModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="addcontrol" method="POST">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Add Product</h4>
+                    <form action="add-user" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add User</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">					
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input name="username" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input name="password" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select name="role" class="form-select" aria-label="Default select example">
+                                    <option value="us">Normal user</option>
+                                    <option value="st">Staff</option>
+                                    <option value="ad">Administrator</option>
+                                </select>
+                            </div>  
                             <div class="form-group">
                                 <label>Name</label>
                                 <input name="name" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Image</label>
-                                <input name="image" type="text" class="form-control" required>
+                                <label>Birthday</label>
+                                <input name="birthdate" type="date" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Price</label>
-                                <input name="price" type="text" class="form-control" required>
+                                <label>Phone number</label>
+                                <input name="phone" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Title</label>
-                                <textarea name="title" class="form-control" required></textarea>
+                                <label>Email Address</label>
+                                <input name="email" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" required></textarea>
+                                <label>Address</label>
+                                <textarea name="address" class="form-control" required></textarea>
                             </div>
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select name="category" class="form-select" aria-label="Default select example">
-                                    <c:forEach items="${listCC}" var="o">
-                                        <option value="${o.cid}">${o.cname}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -165,48 +166,39 @@
             </div>
         </div>
   
-        <div id="editWatchModal" class="modal fade">
+        <div id="editUserModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="editcontrol" method="POST">
-                        <div class="modal-header">						
-                            <h4 class="modal-title">Edit Product</h4>
+                    <form action="edit-user" method="POST">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit User</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
-                        <div class="modal-body">	
+                        <div class="modal-body">
                             <div class="form-group">
                                 <label>ID</label>
                                 <input name="id" type="text" class="form-control" required readonly id="edit-id">
                             </div>
                             <div class="form-group">
                                 <label>Name</label>
-                                <input name="name" type="text" class="form-control" required id="edit-name">
+                                <input name="name" type="text" class="form-control" required  id="edit-name">
                             </div>
                             <div class="form-group">
-                                <label>Image</label>
-                                <input name="image" type="text" class="form-control" required id="edit-image">
+                                <label>Birthday</label>
+                                <input name="birthdate" type="date" class="form-control" required  id="edit-birthdate">
                             </div>
                             <div class="form-group">
-                                <label>Price</label>
-                                <input name="price" type="text" class="form-control" required id="edit-price">
+                                <label>Phone number</label>
+                                <input name="phone" type="text" class="form-control" required  id="edit-phone">
                             </div>
                             <div class="form-group">
-                                <label>Title</label>
-                                <textarea name="title" class="form-control" required id="edit-title"></textarea>
+                                <label>Email Address</label>
+                                <input name="email" type="text" class="form-control" required  id="edit-email">
                             </div>
                             <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" required id="edit-description"></textarea>
+                                <label>Address</label>
+                                <textarea name="address" class="form-control" required  id="edit-address"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label>Category</label>
-                                <select name="category" class="form-select" aria-label="Default select example" id="edit-select">
-                                    <c:forEach items="${listCC}" var="o">
-                                        <option value="${o.cid}">${o.cname}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -217,7 +209,7 @@
             </div>
         </div>
        
-        <div id="deleteWatchModal" class="modal fade">
+        <div id="deleteEmployeeModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form>
@@ -240,18 +232,18 @@
         </div>
         <script src="js/manager.js" type="text/javascript"></script>
         <script>
-            function handleEditId(id, name, image, price, title, description) {
+            function handleEditId(id, name, birthdate, phone, email, address) {
                 document.querySelector("#edit-id").value = id;
                 document.querySelector("#edit-name").value = name;
-                document.querySelector("#edit-image").value = image;
-                document.querySelector("#edit-price").value = price;
-                document.querySelector("#edit-title").value = title;
-                document.querySelector("#edit-description").value = description;
+                document.querySelector("#edit-birthdate").value = birthdate;
+                document.querySelector("#edit-phone").value = phone;
+                document.querySelector("#edit-email").value = email;
+                document.querySelector("#edit-address").value = address;
             }
             function showMess(id) {
                 var option = confirm("Are you sure to delete " + id);
                 if (option === true) {
-                    window.location.href = 'deletecontrol?pid=' + id;
+                    window.location.href = 'delete-user?id=' + id;
                 }
             }
         </script>
