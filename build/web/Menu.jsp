@@ -33,7 +33,7 @@
                         <a class="nav-link" href="#"><strong> HI ${sessionScope.acc.userName}</strong></a>
                     </li>
                 </c:if>
-                <c:if test= "${sessionScope.acc.role eq 'ad'}" >
+                <c:if test= "${sessionScope.acc.role == 'ad' || sessionScope.acc.role == 'st'}" >
                     <li class="nav-item">
                         <a class="nav-link" href="managercontrol"><strong>MANAGER STORE</strong></a>
                     </li>

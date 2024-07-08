@@ -54,7 +54,9 @@
             <h3 class="left-nav__title">Manage Store</h3>
             <a href="/SWP/managercontrol" class="left-nav__item">Product</a>
             <a href="/SWP/manage-user" class="left-nav__item">User</a>
-            <a href="/SWP/report" class="left-nav__item">Report</a>
+            <c:if test= "${sessionScope.acc.role == 'ad'}" >
+                <a href="/SWP/report" class="left-nav__item">Report</a>
+            </c:if>
         </div>
         <div class="container">
             <div class="table-wrapper">

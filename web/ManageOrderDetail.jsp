@@ -54,19 +54,20 @@
             <h3 class="left-nav__title">Manage Store</h3>
             <a href="/SWP/managercontrol" class="left-nav__item">Product</a>
             <a href="/SWP/manage-user" class="left-nav__item">User</a>
-            <a href="/SWP/report" class="left-nav__item">Report</a>
+            <c:if test= "${sessionScope.acc.role == 'ad'}" >
+                <a href="/SWP/report" class="left-nav__item">Report</a>
+            </c:if>
         </div>
         <div class="container">
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2><b>User</b></h2>
+                            <h2><b>Order Detail (Order ID: <%=request.getParameter("id")%>)</b></h2>
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="homecontroll" class="btn btn-primary"><i class="material-icons">home</i>Home</a>
-                            <a href="#addUserModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-						
+                            		
                         </div>
                     </div>
                 </div>
