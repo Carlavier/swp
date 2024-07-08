@@ -31,6 +31,22 @@ public class ProductDAO {
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
     
+    public ArrayList<Order> getListOrder() {
+        String sql = "select * from [Order]";
+        ArrayList<Order> listOrder = new ArrayList<Order>();
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(sql);
+            ResultSet res = ptm.executeQuery();
+            while (res.next()) {
+//                System.out.println(res.getInt(1));
+                listOrder.add(new Order(res.getInt(1), res.getDate(2), res.getDouble(3)));
+            }
+        } catch (Exception e) {
+        }
+        return listOrder;
+    }
+    
     public void addOrderDetail(double price, int quantity, int orderID, int productID) {
         String sql = "insert into dbo.OrderDetail(price, quantity, orderID, id) values (" + price + ", " + quantity + ", " + orderID + ", " + productID + ")";
         try {
@@ -38,7 +54,6 @@ public class ProductDAO {
             ptm = conn.prepareStatement(sql);
             ptm.executeUpdate();
         } catch (Exception e) {
-            System.out.println(e);
         }
     }
     

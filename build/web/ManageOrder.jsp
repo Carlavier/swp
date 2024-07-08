@@ -79,16 +79,14 @@
                                     <label for="selectAll"></label>
                                 </span>
                             </th>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Birth Date</th>
-                            <th>Phone number</th>
-                            <th>Email</th>
-                            <th>Address</th>
+                            <th>Order ID</th>
+                            <th>Order Date</th>
+                            <th>Total</th>
+                            <th>Operation</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${listUserInfo}" var="o">
+                        <c:forEach items="${listOrder}" var="o">
                             <tr>
                                 <td>
                                     <span class="custom-checkbox">
@@ -96,18 +94,15 @@
                                         <label for="checkbox1"></label>
                                     </span>
                                 </td>
-                                <td>${o.getUid()}</td>
-                                <td>${o.getName()}</td>
-                                <td>${o.getBirth()}</td>
-                                <td>${o.getPhone()}</td>
-                                <td>${o.getEmail()}</td>
-                                <td>${o.getAddress()}</td>
+                                <td>${o.getOrderID()}</td>
+                                <td>${o.getOrderDate()}</td>
+                                <td>${o.getTotal()}</td>
                                 <td>
-                                    <a 
-                                        onclick="handleEditId(${o.getUid()}, `${o.getName()}`, `${o.getBirth()}`, `${o.getPhone()}`, `${o.getEmail()}`, `${o.getAddress()}`)"
-                                        href="#editUserModal" class="edit" data-toggle="modal"
-                                    ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a class="delete" onclick="showMess(${o.getUid()})" style="cursor: pointer"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    <a class="btn btn-success" href="/report/detail?id=${o.getOrderID()}">
+                                        <span style="color: white">
+                                            View Detail
+                                        </span>
+                                    </a>
                                 </td>
                             </tr>
                         </c:forEach>
