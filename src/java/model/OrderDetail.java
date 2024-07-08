@@ -6,15 +6,16 @@
 package model;
 
 public class OrderDetail {
-    private int detailId, quantity, orderId, productId;
+    private int detailId, quantity, orderId;
     private double price;
+    private Product product;
 
-    public OrderDetail(int detailId, int quantity, int orderId, int productId, double price) {
+    public OrderDetail(int detailId, int quantity, int orderId, double price, Product product) {
         this.detailId = detailId;
         this.quantity = quantity;
         this.orderId = orderId;
-        this.productId = productId;
         this.price = price;
+        this.product = product;
     }
 
     public int getDetailId() {
@@ -29,12 +30,12 @@ public class OrderDetail {
         return orderId;
     }
 
-    public int getProductId() {
-        return productId;
-    }
-
     public double getPrice() {
         return price;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 
     public void setDetailId(int detailId) {
@@ -49,13 +50,13 @@ public class OrderDetail {
         this.orderId = orderId;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
     public void setPrice(double price) {
         this.price = price;
     }
-    
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     
 }

@@ -15,6 +15,7 @@ import java.util.List;
 import model.Account;
 import model.Category;
 import model.Order;
+import model.OrderDetail;
 import model.Product;
 import model.UserInfo;
 
@@ -30,6 +31,34 @@ public class ProductDAO {
 
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+    
+    public ArrayList<OrderDetail> getListOrderDetail(int orderID) {
+        String sql = "select * from [OrderDetail] join [Product] on [OrderDetail].id = [Product].id where [OrderDetail].orderID = " + orderID;
+        ArrayList<OrderDetail> listOrderDetail = new ArrayList<>();
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(sql);
+            ResultSet res = ptm.executeQuery();
+            while (res.next()) {
+//                System.out.println(res.getInt(1));
+                listOrderDetail.add(new OrderDetail(
+                        res.getInt(1),
+                        res.getInt(3),
+                        res.getInt(4),
+                        res.getDouble(2),
+                        new Product(
+                                res.getInt(6),
+                                res.getString(7),
+                                res.getString(8),
+                                res.getDouble(9),
+                                res.getString(10),
+                                res.getString(11))
+                ));
+            }
+        } catch (Exception e) {
+        }
+        return listOrderDetail;
+    }
     
     public ArrayList<Order> getListOrder() {
         String sql = "select * from [Order]";

@@ -79,14 +79,15 @@
                                     <label for="selectAll"></label>
                                 </span>
                             </th>
-                            <th>Order ID</th>
-                            <th>Order Date</th>
-                            <th>Total</th>
-                            <th>Operation</th>
+                            <th>Order Detail ID</th>
+                            <th>Total Price</th>
+                            <th>Quantity</th>
+                            <th>Product Name</th>
+                            <th>Product Image</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${listOrder}" var="o">
+                        <c:forEach items="${listOrderDetail}" var="o">
                             <tr>
                                 <td>
                                     <span class="custom-checkbox">
@@ -94,15 +95,12 @@
                                         <label for="checkbox1"></label>
                                     </span>
                                 </td>
-                                <td>${o.getOrderID()}</td>
-                                <td>${o.getOrderDate()}</td>
-                                <td>${o.getTotal()}</td>
+                                <td>${o.getDetailId()}</td>
+                                <td>${o.getPrice()}</td>
+                                <td>${o.getQuantity()}</td>
+                                <td>${o.getProduct().getName()}</td>
                                 <td>
-                                    <a class="btn btn-success" href="/SWP/report-detail?id=${o.getOrderID()}">
-                                        <span style="color: white">
-                                            View Detail
-                                        </span>
-                                    </a>
+                                    <img src="${o.getProduct().getImage()}" alt="alt"/>
                                 </td>
                             </tr>
                         </c:forEach>

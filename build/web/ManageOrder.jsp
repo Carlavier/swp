@@ -98,7 +98,7 @@
                                 <td>${o.getOrderDate()}</td>
                                 <td>${o.getTotal()}</td>
                                 <td>
-                                    <a class="btn btn-success" href="/report/detail?id=${o.getOrderID()}">
+                                    <a class="btn btn-success" href="/SWP/report-detail?id=${o.getOrderID()}">
                                         <span style="color: white">
                                             View Detail
                                         </span>
