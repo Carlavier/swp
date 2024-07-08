@@ -31,6 +31,17 @@ public class ProductDAO {
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
     
+    public void addOrderDetail(double price, int quantity, int orderID, int productID) {
+        String sql = "insert into dbo.OrderDetail(price, quantity, orderID, id) values (" + price + ", " + quantity + ", " + orderID + ", " + productID + ")";
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(sql);
+            ptm.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
     public void deleteUser(int uid) {
         String sql1 = "delete from infor where \"uID\"=" + uid;
         String sql2 = "delete from accs where \"uID\"=" + uid;

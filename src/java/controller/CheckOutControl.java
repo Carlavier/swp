@@ -6,17 +6,14 @@ package controller;
 
 import dao.ProductDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Account;
 import model.Cart;
 import model.Item;
 
@@ -62,6 +59,14 @@ if ("Payment".equals(action)) {
                 java.util.Date utilDate = new java.util.Date();
                 java.sql.Date orderDate = new java.sql.Date(utilDate.getTime());
                 Order orderDetail = dao.createOrder(orderDate, total);
+                
+                int orderId = orderDetail.getOrderID();
+                Cart cart = (Cart) request.getSession().getAttribute("cart");
+                List<Item> listItem = cart.getListCart();
+                for (int i = 0; i < listItem.size(); ++i) {
+                    Item currentItem = listItem.get(i);
+                    dao.addOrderDetail(currentItem.getTotal(), currentItem.getQuantity(), orderId, currentItem.getProduct().getId());
+                }
 
                 // Kết thúc giao dịch
                 dao.commitTransaction();
