@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
 import model.Category;
 import model.Product;
 import model.UserInfo;
@@ -34,7 +35,11 @@ public class ManageUser extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         ProductDAO dao = new ProductDAO();
         
-        List<UserInfo> list = dao.listUserInfo();
+        List<UserInfo> list;
+        
+        Account acc = (Account)request.getSession().getAttribute("acc");
+        if (acc.getRole().equals("st")) list = dao.listUserInfoRestricted();
+        else list = dao.listUserInfo();
         
         request.setAttribute("listUserInfo", list);
 
