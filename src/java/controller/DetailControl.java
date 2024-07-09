@@ -1,92 +1,100 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import dao.ProductDAO;
+import dao.ReviewDAO;
 import model.Category;
 import model.Product;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import model.Review;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- *
- * @author trinh
- */
 @WebServlet(name = "DetailControl", urlPatterns = {"/detail"})
 public class DetailControl extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String id = request.getParameter("pid");
-        
+
         ProductDAO dao = new ProductDAO();
-        
+        ReviewDAO reviewDAO = new ReviewDAO();
+
         Product product = dao.getProductByID(id);
         List<Category> listCC = dao.getAllCategory();
-      
-        
+        List<Review> reviews = reviewDAO.getReviewsByProductID(id);
+
+        // Create a map to store usernames for each review
+        Map<Integer, String> userNames = new HashMap<>();
+        for (Review review : reviews) {
+            String username = reviewDAO.getUsernameByUserID(review.getUserID());
+            userNames.put(review.getUserID(), username);
+        }
+
+        // Calculate total reviews and rating distribution
+        int totalReviews = reviews.size();
+        int[] ratingDistribution = new int[5];
+        double totalRating = 0;
+
+        for (Review review : reviews) {
+            int rating = review.getRating();
+            if (rating >= 1 && rating <= 5) {
+                ratingDistribution[rating - 1]++;
+                totalRating += rating;
+            }
+        }
+
+        // Convert rating distribution to percentages
+        for (int i = 0; i < ratingDistribution.length; i++) {
+            if (totalReviews > 0) {
+                ratingDistribution[i] = (int) Math.round((ratingDistribution[i] * 100.0) / totalReviews);
+            } else {
+                ratingDistribution[i] = 0;
+            }
+        }
+
+        // Round average rating to 2 decimal places
+        double averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+        BigDecimal avgRatingRounded = new BigDecimal(averageRating).setScale(2, RoundingMode.HALF_UP);
+
+        // Create a list from 5 to 1 to send to JSP
+        List<Integer> ratingRange = Arrays.asList(5, 4, 3, 2, 1);
+
         request.setAttribute("listCC", listCC);
- 
         request.setAttribute("detail", product);
+        request.setAttribute("reviews", reviews);
+        request.setAttribute("userNames", userNames); // Send map with usernames to JSP
+        request.setAttribute("averageRating", avgRatingRounded.doubleValue());
+        request.setAttribute("totalReviews", totalReviews);
+        request.setAttribute("ratingDistribution", ratingDistribution);
+        request.setAttribute("ratingRange", ratingRange);
         request.getRequestDispatcher("Detail.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }
 }

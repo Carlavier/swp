@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/namto/Documents/NetBeansProjects/swp/web/ManageUser.jsp</file>
-            <file>file:/D:/namto/Documents/NetBeansProjects/swp/src/java/controller/AddUser.java</file>
+            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/swp/src/java/controller/DetailControl.java</file>
+            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/swp/src/java/model/Review.java</file>
+            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/swp/src/java/dao/ReviewDAO.java</file>
+            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/swp/src/java/controller/SubmitReview.java</file>
         </group>
     </open-files>
 </project-private>
