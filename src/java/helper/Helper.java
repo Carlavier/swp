@@ -8,13 +8,19 @@ package helper;
 import model.Account;
 
 public class Helper {
+    public static boolean haveUser(Account account) {
+        return account == null ? false : true;
+    }
+    
     public static boolean isAdmin(Account account) {
-        if (account.getRole() == "ad") return true;
+        if (!haveUser(account)) return false;
+        if (account.getRole().equals("ad")) return true;
         return false;
     }
     
     public static boolean isAdminOrStaff(Account account) {
-        if (account.getRole() == "ad" || account.getRole() == "st") return true;
+        if (!haveUser(account)) return false;
+        if (account.getRole().equals("ad") || account.getRole().equals("st")) return true;
         return false;
     }
 }

@@ -49,7 +49,10 @@ public class AddUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) response.sendRedirect("homecontroll");
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) {
+            response.sendRedirect("homecontroll");
+            return;
+        }
         
         String username = request.getParameter("username");
         String password = request.getParameter("password");

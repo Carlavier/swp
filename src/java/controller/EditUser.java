@@ -48,7 +48,10 @@ public class EditUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) response.sendRedirect("homecontroll");
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) {
+            response.sendRedirect("homecontroll");
+            return;
+        }
         
         String id = request.getParameter("id");
         String name = request.getParameter("name");
