@@ -5,6 +5,7 @@
 package controller;
 
 import dao.ProductDAO;
+import helper.Helper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
 
 /**
  *
@@ -63,6 +65,8 @@ public class EditControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) response.sendRedirect("homecontroll");
+        
         String id_edit = request.getParameter("id");
         String name_edit = request.getParameter("name");
         String image_edit = request.getParameter("image");

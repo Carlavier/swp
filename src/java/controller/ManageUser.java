@@ -7,6 +7,7 @@ package controller;
 
 
 import dao.ProductDAO;
+import helper.Helper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -33,6 +34,8 @@ public class ManageUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) response.sendRedirect("homecontroll");
+        
         ProductDAO dao = new ProductDAO();
         
         List<UserInfo> list;

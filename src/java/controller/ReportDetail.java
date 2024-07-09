@@ -6,6 +6,7 @@
 package controller;
 
 import dao.ProductDAO;
+import helper.Helper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
 import model.OrderDetail;
 
 @WebServlet(name="ReportDetail", urlPatterns={"/report-detail"})
@@ -29,6 +31,7 @@ public class ReportDetail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        if (!Helper.isAdmin((Account)request.getSession().getAttribute("acc"))) response.sendRedirect("homecontroll");
         
         int orderId = Integer.parseInt(request.getParameter("id"));
         ProductDAO dao = new ProductDAO();
