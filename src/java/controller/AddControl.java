@@ -66,7 +66,10 @@ public class AddControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) response.sendRedirect("homecontroll");
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) {
+            response.sendRedirect("homecontroll");
+            return;
+        }
         
         String name_add = request.getParameter("name");
         String image_add = request.getParameter("image");
