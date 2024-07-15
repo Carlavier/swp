@@ -6,6 +6,7 @@
 package controller;
 
 import dao.ProductDAO;
+import helper.Helper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
 
 @WebServlet(name="DeleteUser", urlPatterns={"/delete-user"})
 public class DeleteUser extends HttpServlet {
@@ -27,6 +29,11 @@ public class DeleteUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) {
+            response.sendRedirect("homecontroll");
+            return;
+        }
+        
         String id = request.getParameter("id");
         
         ProductDAO dao = new ProductDAO();

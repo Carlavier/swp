@@ -2,6 +2,7 @@ package controller;
 
 import dao.ProductDAO;
 import dao.ReviewDAO;
+import helper.Helper;
 import model.Category;
 import model.Product;
 import model.Review;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.Account;
 
 @WebServlet(name = "DetailControl", urlPatterns = {"/detail"})
 public class DetailControl extends HttpServlet {
@@ -25,6 +27,11 @@ public class DetailControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) {
+            response.sendRedirect("homecontroll");
+            return;
+        }
+        
         String id = request.getParameter("pid");
 
         ProductDAO dao = new ProductDAO();

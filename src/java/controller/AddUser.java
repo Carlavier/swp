@@ -6,6 +6,7 @@
 package controller;
 
 import dao.ProductDAO;
+import helper.Helper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
 
 @WebServlet(name="AddUser", urlPatterns={"/add-user"})
 public class AddUser extends HttpServlet {
@@ -47,6 +49,11 @@ public class AddUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) {
+            response.sendRedirect("homecontroll");
+            return;
+        }
+        
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String role = request.getParameter("role");
