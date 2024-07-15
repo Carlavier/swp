@@ -48,6 +48,15 @@
                     background-color: #ccc;
                 }
             }
+            .report-nav-item {
+                text-decoration: none;
+                color: white;
+                background-color: #2f445e;
+                padding: 3px 10px;
+                border-radius: 3px 3px 0 0;
+                cursor: pointer;
+                margin-left: 5px;
+            }
         </style>
     <body>
         <div class="left-nav">
@@ -55,11 +64,19 @@
             <a href="/SWP/managercontrol" class="left-nav__item">Product</a>
             <a href="/SWP/manage-user" class="left-nav__item">User</a>
             <c:if test= "${sessionScope.acc.role == 'ad'}" >
-                <a href="/SWP/report" class="left-nav__item">Report</a>
+                <a href="/SWP/report-monthly" class="left-nav__item">Report</a>
             </c:if>
         </div>
         <div class="container">
-            <div class="table-wrapper">
+            <div class="table-wrapper" style="position: relative">
+                <div style="display: flex; position: absolute; top: -24px; left: 0;">
+                    <a href="/SWP/report-monthly">
+                        <div class="report-nav-item">Monthly Report</div>
+                    </a>
+                    <a href="/SWP/report">
+                        <div class="report-nav-item">Order History</div>
+                    </a>
+                </div>
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
