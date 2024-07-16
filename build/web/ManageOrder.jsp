@@ -251,6 +251,7 @@
         </div>
         <script src="js/manager.js" type="text/javascript"></script>
         <script>
+            "123"
             function handleEditId(id, name, birthdate, phone, email, address) {
                 document.querySelector("#edit-id").value = id;
                 document.querySelector("#edit-name").value = name;
