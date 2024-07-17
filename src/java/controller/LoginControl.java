@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Account;
+import model.UserInfo;
 
 /**
  *
@@ -92,7 +93,9 @@ public class LoginControl extends HttpServlet {
         } else {
 
             HttpSession session = request.getSession();
+            UserInfo userInfo = dao.getUserInfoByID(account.getId());
             session.setAttribute("acc", account);
+            session.setAttribute("userInfo", userInfo);
             session.setMaxInactiveInterval(60*60*24);
 
             Cookie u = new Cookie("userC", username);

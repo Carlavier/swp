@@ -38,7 +38,11 @@
                         <a class="nav-link" href="managercontrol"><strong>MANAGER STORE</strong></a>
                     </li>
                 </c:if>
-              
+                <c:if test="${sessionScope.acc.role eq 'us'}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="processuserdata"><strong>MY PROFILE</strong></a>
+                    </li>
+                </c:if>
 
 
                 <c:if test="${sessionScope.acc == null}">
