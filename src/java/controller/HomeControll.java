@@ -6,8 +6,9 @@ package controller;
 
 import dao.ProductDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,32 +37,28 @@ public class HomeControll extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         ProductDAO dao = new ProductDAO();
-        
+
         List<Product> list = dao.listProduct();
         int page, numberPerPage = 6;
 
         int size = list.size();
-        int numpage =(size%6==0?(size/6):((size/6))+1); 
-        
-        
+        int numpage = (size % 6 == 0 ? (size / 6) : ((size / 6)) + 1);
+
         String pickedPage = request.getParameter("page"); // Trang được chọn
-        if(pickedPage==null){
+        if (pickedPage == null) {
             page = 1; // Khi mới vào thì chưa có trang đc chọn, cho = 1
-        } else{
+        } else {
             page = Integer.parseInt(pickedPage);
         }
-        
+
         int start, end;
-        start = (page-1)*numberPerPage; 
-        end = Math.min(page*numberPerPage, size);
-        
-        List<Product> listP =  dao.getListByPage(list, start, end);
-       
-                
-        List<Category> listC = dao.getAllCategory();       
-   
-        
- 
+        start = (page - 1) * numberPerPage;
+        end = Math.min(page * numberPerPage, size);
+
+        List<Product> listP = dao.getListByPage(list, start, end);
+
+        List<Category> listC = dao.getAllCategory();
+
         request.setAttribute("listCC", listC);
         request.setAttribute("listP", listP);
         request.setAttribute("page", page);
@@ -69,29 +66,15 @@ public class HomeControll extends HttpServlet {
         request.getRequestDispatcher("Home.jsp").forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getParameter("action");
+
         processRequest(request, response);
+
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

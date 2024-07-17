@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Account;
 import model.Category;
 import model.Order;
@@ -173,22 +175,34 @@ public class ProductDAO {
         return list;
     }
     
-    public List<Product> listProduct() {
-        List<Product> list = new ArrayList<>();
-        String query = "select * from dbo.Product";
+   public List<Product> listProduct() {
+    List<Product> list = new ArrayList<>();
+    String query = "SELECT * FROM dbo.Product";
 
-        try {
-            conn = DBManager.getConnection();
-            ptm = conn.prepareStatement(query);
-            rs = ptm.executeQuery();
-            while (rs.next()) {
-                Product p = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5), rs.getString(6));
-                list.add(p);
-            }
-
-        } catch (Exception e) {
+    try {
+        conn = DBManager.getConnection();
+        ptm = conn.prepareStatement(query);
+        rs = ptm.executeQuery();
+        while (rs.next()) {
+            Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("image"), rs.getDouble("price"), rs.getString("title"), rs.getString("description"));
+            p.setQuantity(rs.getInt("quantity")); // Đặt giá trị cho quantity
+            list.add(p);
         }
-        return list;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
+     public void updateProductQuantity(int productId, int quantity) throws SQLException {
+        String query = "UPDATE Product SET quantity = quantity - ? WHERE id = ?";
+        try ( Connection conn = DBManager.getConnection();PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, quantity);
+            ps.setInt(2, productId);
+            ps.executeUpdate();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public List<Product> getListByPage(List<Product> list, int start, int end) {

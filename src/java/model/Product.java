@@ -1,13 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
-
-/**
- *
- * @author ADMIN
- */
 public class Product {
     private int id;
     private String name;
@@ -16,6 +7,7 @@ public class Product {
     private String title;
     private String description;
     private Category category;
+    private int quantity; // Thuộc tính quantity
 
     public Product() {
     }
@@ -95,10 +87,16 @@ public class Product {
         this.description = description;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", name=" + name + ", image=" + image + ", price=" + price + ", title=" + title + ", description=" + description + '}';
+        return "Product{" + "id=" + id + ", name=" + name + ", image=" + image + ", price=" + price + ", title=" + title + ", description=" + description + ", quantity=" + quantity + '}';
     }
-    
-    
 }

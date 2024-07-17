@@ -22,3 +22,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     z-index: 1;  
 }
 
+    .sold-out-overlay {
+        position: absolute;
+        top: 10px; /* Điều chỉnh vị trí top */
+        right: 10px; /* Điều chỉnh vị trí right */
+        width: 100px; /* Điều chỉnh chiều rộng */
+        height: auto; /* Tự động tính chiều cao */
+        z-index: 10;
+    }
+
+
