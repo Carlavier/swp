@@ -427,14 +427,9 @@ public class ProductDAO {
 //
 //        }
 //    }
-<<<<<<< HEAD
     
     public Order createOrder(java.sql.Date orderDate, double total, int uID) {
         String query = "INSERT INTO [dbo].[Order] (orderDate, total, uID) VALUES (?, ?, ?)";
-=======
-    public Order createOrder(java.sql.Date orderDate, double total) {
-        String query = "INSERT INTO [dbo].[Order] (orderDate, total) VALUES (?, ?)";
->>>>>>> 7c9e3eb36e2741df74fff9605e61a3e8231a23c3
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet generatedKeys = null;
@@ -445,7 +440,6 @@ public class ProductDAO {
             ptm = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ptm.setDate(1, orderDate);
             ptm.setDouble(2, total);
-<<<<<<< HEAD
             ptm.setInt(3, uID);
             ptm.executeUpdate();
 
@@ -480,38 +474,6 @@ public class ProductDAO {
 
 
 
-=======
-            ptm.executeUpdate();
-
-            generatedKeys = ptm.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                int orderID = generatedKeys.getInt(1);
-                order = new Order(orderID, utilDate, total);
-                order.setOrderID(orderID); // Đặt orderID cho đối tượng Order
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // Đóng kết nối và tài nguyên
-            try {
-                if (generatedKeys != null) {
-                    generatedKeys.close();
-                }
-                if (ptm != null) {
-                    ptm.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return order; // Trả về đối tượng Order
-    }
-
->>>>>>> 7c9e3eb36e2741df74fff9605e61a3e8231a23c3
     public void beginTransaction() throws SQLException, ClassNotFoundException {
         // Bắt đầu giao dịch
         Connection conn = new DBManager().getConnection(); // Lấy kết nối đến cơ sở dữ liệu
