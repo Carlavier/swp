@@ -9,6 +9,15 @@ public class OrderDetail {
     private int detailId, quantity, orderId;
     private double price;
     private Product product;
+    private Order order;
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     public OrderDetail(int detailId, int quantity, int orderId, double price, Product product) {
         this.detailId = detailId;
@@ -16,6 +25,15 @@ public class OrderDetail {
         this.orderId = orderId;
         this.price = price;
         this.product = product;
+    }
+
+    public OrderDetail(int detailId, int quantity, int orderId, double price, Product product, Order order) {
+        this.detailId = detailId;
+        this.quantity = quantity;
+        this.orderId = orderId;
+        this.price = price;
+        this.product = product;
+        this.order = order;
     }
 
     public int getDetailId() {

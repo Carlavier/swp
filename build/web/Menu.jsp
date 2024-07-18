@@ -18,6 +18,7 @@
 
 </head>
 <!--begin of menu-->
+<jsp:include page="Navbar.jsp"></jsp:include>
 <nav  class="navbar navbar-expand-md navbar-dark" style="background-color: #000000;">
     <div class="container">
         <a class="navbar-brand" href="homecontroll"  style="font-family: 'lobster', sans-serif; font-size: 24px; color: #fff; text-decoration: none; font-style: italic;">
@@ -38,7 +39,11 @@
                         <a class="nav-link" href="managercontrol"><strong>MANAGER STORE</strong></a>
                     </li>
                 </c:if>
-              
+                <c:if test="${sessionScope.acc.role eq 'us'}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="processuserdata"><strong>MY PROFILE</strong></a>
+                    </li>
+                </c:if>
 
 
                 <c:if test="${sessionScope.acc == null}">
