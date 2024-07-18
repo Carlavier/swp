@@ -30,5 +30,43 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
         height: auto; /* Tự động tính chiều cao */
         z-index: 10;
     }
+    .register-block {
+                padding: 50px;
+                background-color: #121212;
+                border-radius: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .register-text {
+                max-width: 50%;
+            }
+            .register-text h2 {
+                font-size: 2em;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+            .register-text p {
+                font-size: 1.2em;
+                margin-bottom: 20px;
+
+            }
+            .register-button {
+                background-color: red;
+                border: 2px solid #b10d0d;
+                padding: 15px 150px; /* Adjust padding to make it larger */
+                font-size: 1.0em;
+                border-radius: 30px; /* Make corners rounded */
+                color: #ffffff;
+
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+            .watch-image {
+                max-width: 45%;
+            }
+            .watch-image img {
+                width: 100%;
+                border-radius: 5px;
+            }
 
 

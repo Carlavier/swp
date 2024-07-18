@@ -24,16 +24,17 @@
         <script>
             var isLoggedIn = ${sessionScope.acc != null};
         </script>
+   
 
     </head>
     <body>
         <jsp:include page="Navbar.jsp"></jsp:include>
 
-     
+
             <div class="container">
                 <div class="row">
                     <div class="col text-center"> 
-                        <h3> MOVIE WATCHES </h3>
+                        <h3> WRIST WATCHES </h3>
                         </ol>
                     </div>
                 </div>
@@ -42,45 +43,47 @@
 
 
 
-<div class="col-sm-12">
-    <div class="row">
-        <c:forEach items="${listP}" var="o">
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card position-relative">
-                    <img class="card-img-top" src="${o.image}" alt="Card image cap">
-                    <c:if test="${o.quantity eq 0}">
-                        <img class="sold-out-overlay" src="icons8-sold-out-64.png" alt="Sold Out">
-                    </c:if>
-                    <div class="card-body">
-                        <h4 class="card-title show_txt">
-                            <a href="detail?pid=${o.id}" title="View Product" style="color: #000000">${o.name}</a>
-                        </h4>
+            <div class="col-sm-12">
+                <div class="row">
+                <c:forEach items="${listP}" var="o">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card position-relative">
+                            <img class="card-img-top" src="${o.image}" alt="Card image cap">
 
-                        <div class="row">
-                            <div class="col">
-                                <c:choose>
-                                    <c:when test="${o.quantity ne 0}">
-                                        <p class="btn btn-danger btn-block" onclick="checkLoginClickPrice(${o.id})">
-                                            <a style="color: white" href="#">${o.price} $</a>
-                                        </p>
-                                    </c:when>
-                                </c:choose>
-                            </div>
-                            <div class="col">
-                                <c:choose>
-                                    <c:when test="${o.quantity ne 0}">
-                                        <a href="#" class="btn btn-block" style="background-color: green; color: white" onclick="checkLoginAndAddToCart(${o.id})">Add to cart</a>
-                                    </c:when>
-                                </c:choose>
+                            <c:if test="${o.quantity eq 0}">
+                                <img class="sold-out-overlay" src="icons8-sold-out-64.png" alt="Sold Out">
+                            </c:if>
+
+                            <div class="card-body">
+                                <h4 class="card-title show_txt">
+                                    <c:choose>
+                                        <c:when test="${o.quantity ne 0}">
+                                            <a href="detail?pid=${o.id}" title="View Product" style="color: #000000">${o.name}</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span style="color: #000000">${o.name}</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </h4>
+
+                                <c:if test="${o.quantity ne 0}">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="btn btn-danger btn-block" onclick="checkLoginClickPrice(${o.id})">
+                                                <a style="color: white" href="#">${o.price} $</a>
+                                            </p>
+                                        </div>
+                                        <div class="col">
+                                            <a href="#" class="btn btn-block" style="background-color: green; color: white" onclick="checkLoginAndAddToCart(${o.id})">Add to cart</a>
+                                        </div>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
-
                     </div>
-                </div>
+                </c:forEach>
             </div>
-        </c:forEach>
-    </div>
-</div>
+        </div>
 
 
 
@@ -89,50 +92,52 @@
 
 
 
-       <div class="col-sm-12">
-    <ul class="pagination justify-content-center">
-        <li class="page-item">
-            <c:choose>
-                <c:when test="${page > 1}">
-                    <a class="page-link" href="homecontroll?page=${page - 1}" style="color: black">
-                        <i class="fas fa-chevron-left"></i>
-                    </a>
-                </c:when>
-                <c:otherwise>
-                    <span class="page-link disabled">
-                        <i class="fas fa-chevron-left"></i>
-                    </span>
-                </c:otherwise>
-            </c:choose>
-        </li>
-        <c:forEach begin="1" end="${num}" var="i">
-            <li class="page-item ${page == i ? 'active' : ''}">
-                <c:choose>
-                    <c:when test="${page == i}">
-                        <span class="page-link">${i}</span>
-                    </c:when>
-                    <c:otherwise>
-                        <a class="page-link" href="homecontroll?page=${i}" style="color: black">${i}</a>
-                    </c:otherwise>
-                </c:choose>
-            </li>
-        </c:forEach>
-        <li class="page-item">
-            <c:choose>
-                <c:when test="${page < num}">
-                    <a class="page-link" href="homecontroll?page=${page + 1}" style="color: black">
-                        <i class="fas fa-chevron-right"></i>
-                    </a>
-                </c:when>
-                <c:otherwise>
-                    <span class="page-link disabled">
-                        <i class="fas fa-chevron-right"></i>
-                    </span>
-                </c:otherwise>
-            </c:choose>
-        </li>
-    </ul>
-</div>
+
+
+        <div class="col-sm-12">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <c:choose>
+                        <c:when test="${page > 1}">
+                            <a class="page-link" href="homecontroll?page=${page - 1}" style="color: black">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="page-link disabled">
+                                <i class="fas fa-chevron-left"></i>
+                            </span>
+                        </c:otherwise>
+                    </c:choose>
+                </li>
+                <c:forEach begin="1" end="${num}" var="i">
+                    <li class="page-item ${page == i ? 'active' : ''}">
+                        <c:choose>
+                            <c:when test="${page == i}">
+                                <span class="page-link">${i}</span>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="page-link" href="homecontroll?page=${i}" style="color: black">${i}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
+                </c:forEach>
+                <li class="page-item">
+                    <c:choose>
+                        <c:when test="${page < num}">
+                            <a class="page-link" href="homecontroll?page=${page + 1}" style="color: black">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="page-link disabled">
+                                <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </c:otherwise>
+                    </c:choose>
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -186,7 +191,18 @@
         </div>
     </div>
 </div>
-
+<div class="container-fluid">
+    <div class="register-block row">
+        <div class="register-text col-md-6">
+            <h2>REGISTER MY WATCH</h2>
+             <p>You can now register your Hamilton watches into your Hamilton account. Sign up, add your watch to your collection and enjoy the full Tissot Experience. Want to personalize your watch with a compatible strap? Want to know about your warranty status? Want to know how to get the most of your watch thanks to your user guide? Want to access your past order and personal information? All you need is accessible in your account.</p>
+          <button class="register-button" onclick="window.location.href='signup.jsp'">REGISTER</button>
+            </div>
+        <div class="watch-image col-md-6">
+            <img src="https://www.tissotwatches.com/media/content_push/RMW_Image_1.jpg?im=Resize=(1784,1338)" alt="Watches">
+        </div>
+    </div>
+</div>
 
 <jsp:include page="Footer.jsp"></jsp:include>
 </body>
