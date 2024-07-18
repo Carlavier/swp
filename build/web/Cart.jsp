@@ -123,19 +123,22 @@
 
                                 <div class="col-lg-7">
                                     <div style="width: 50%; margin: auto;">
+                                        <%
+                                            Object userInfo = session.getAttribute("userInfo");
+                                        %>
                                         <form action="checkoutcontrol" method="post">
                                             <!-- Các trường thông tin người dùng -->
-                                            <label for="fullName">Full Name:</label>
-                                            <input type="text" id="fullName" name="fullName" required><br><br>
+                                            <label for="name">Full Name:</label>
+                                            <input type="text" id="name" name="fullName" value="${userInfo.name}" required><br><br>
 
-                                            <label for="fullName">TelePhone:</label>
-                                            <input type="number" id="phonenumber" name="phonenumber" required><br><br>
+                                            <label for="phone">TelePhone:</label>
+                                            <input type="number" id="phone" name="phonenumber" value="${userInfo.phone}" required><br><br>
                                             
-                                            <label for="userEmail"> Your Email:</label>
-                                            <input type="email" id="userEmail" name="userEmail" required><br><br>
+                                            <label for="email"> Your Email:</label>
+                                            <input type="email" id="userEmail" name="userEmail" value="${userInfo.email}" required><br><br>
 
                                             <label for="address">Address:</label>
-                                            <textarea id="address" name="address" rows="4" cols="50" required></textarea><br><br>
+                                            <textarea id="address" name="address" rows="4" cols="50" required>${userInfo.address}</textarea><br><br>
 
                                             <!-- Thêm trường ẩn để gửi totalAmount -->
                                             <input type="hidden" name="totalAmount" value="${totalAmount}">

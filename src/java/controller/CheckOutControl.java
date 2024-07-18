@@ -7,6 +7,9 @@ package controller;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,15 +17,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Cart;
-import model.Item;
+
+import model.*;
 
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Order;
 
 @WebServlet(name = "CheckOutControl", urlPatterns = {"/checkoutcontrol"})
 public class CheckOutControl extends HttpServlet {
@@ -51,15 +53,24 @@ if ("Payment".equals(action)) {
             if (total > 0) { // Check if the total payment is greater than zero
                 // Tiếp tục xử lý như thông thường
                 ProductDAO dao = new ProductDAO();
-
+                HttpSession session = request.getSession(false);
+                Account account = (Account) session.getAttribute("acc");
+                int uID = account.getId();
                 // Bắt đầu giao dịch
                 dao.beginTransaction();
 
                 // Tạo đơn hàng
                 java.util.Date utilDate = new java.util.Date();
                 java.sql.Date orderDate = new java.sql.Date(utilDate.getTime());
-                Order orderDetail = dao.createOrder(orderDate, total);
-                
+                Order orderDetail = dao.createOrder(orderDate, total, uID);
+
+                // Tạo thông tin người dùng
+                Date birthdate = new SimpleDateFormat("yyyy-MM-dd").parse("2000-01-01");
+
+                InforUser user = new InforUser(uID, fullName, birthdate, phoneNumber, userEmail, address);
+                dao.upsertUserInformation(user);
+                session.setAttribute("userInfo", user);
+
                 int orderId = orderDetail.getOrderID();
                 Cart cart = (Cart) request.getSession().getAttribute("cart");
                 List<Item> listItem = cart.getListCart();
@@ -74,7 +85,6 @@ if ("Payment".equals(action)) {
 
                 // Gửi email
                 sendShippingEmail(userEmail, orderDetail, address, fullName, phoneNumber);
-                HttpSession session = request.getSession(false);
                 if (session != null) {
                     session.removeAttribute("cart"); // Xóa thuộc tính lưu trữ giỏ hàng trong session
                     // Hoặc session.setAttribute("cart", new Cart()); // Làm trống giỏ hàng
@@ -93,6 +103,8 @@ if ("Payment".equals(action)) {
             Logger.getLogger(CheckOutControl.class.getName()).log(Level.SEVERE, null, ex);
             // Handle database or class not found exceptions
             response.sendRedirect("error.jsp");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     } else {
         // Xử lý logic mặc định hoặc thông báo lỗi nếu có

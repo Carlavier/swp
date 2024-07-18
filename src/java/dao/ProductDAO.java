@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
 import model.Category;
+import model.InforUser;
 import model.Order;
 import model.OrderDetail;
 import model.Product;
@@ -426,8 +427,14 @@ public class ProductDAO {
 //
 //        }
 //    }
+<<<<<<< HEAD
+    
+    public Order createOrder(java.sql.Date orderDate, double total, int uID) {
+        String query = "INSERT INTO [dbo].[Order] (orderDate, total, uID) VALUES (?, ?, ?)";
+=======
     public Order createOrder(java.sql.Date orderDate, double total) {
         String query = "INSERT INTO [dbo].[Order] (orderDate, total) VALUES (?, ?)";
+>>>>>>> 7c9e3eb36e2741df74fff9605e61a3e8231a23c3
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet generatedKeys = null;
@@ -438,6 +445,8 @@ public class ProductDAO {
             ptm = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ptm.setDate(1, orderDate);
             ptm.setDouble(2, total);
+<<<<<<< HEAD
+            ptm.setInt(3, uID);
             ptm.executeUpdate();
 
             generatedKeys = ptm.getGeneratedKeys();
@@ -468,6 +477,41 @@ public class ProductDAO {
         return order; // Trả về đối tượng Order
     }
 
+
+
+
+=======
+            ptm.executeUpdate();
+
+            generatedKeys = ptm.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int orderID = generatedKeys.getInt(1);
+                order = new Order(orderID, utilDate, total);
+                order.setOrderID(orderID); // Đặt orderID cho đối tượng Order
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng kết nối và tài nguyên
+            try {
+                if (generatedKeys != null) {
+                    generatedKeys.close();
+                }
+                if (ptm != null) {
+                    ptm.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return order; // Trả về đối tượng Order
+    }
+
+>>>>>>> 7c9e3eb36e2741df74fff9605e61a3e8231a23c3
     public void beginTransaction() throws SQLException, ClassNotFoundException {
         // Bắt đầu giao dịch
         Connection conn = new DBManager().getConnection(); // Lấy kết nối đến cơ sở dữ liệu
@@ -543,4 +587,142 @@ public class ProductDAO {
         return null;
     }
 
+    public InforUser getUserInformation(int userID) throws ClassNotFoundException {
+        String selectQuery = "SELECT * FROM infor WHERE uID = ?";
+        InforUser user = null;
+
+        try {
+            conn = new DBManager().getConnection();
+            ptm = conn.prepareStatement(selectQuery);
+            ptm.setInt(1, userID);
+            rs = ptm.executeQuery();
+
+            if (rs.next()) {
+                String name = rs.getString("name");
+                Date birthdate = rs.getDate("birthdate");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+
+                user = new InforUser(userID, name, birthdate, phone, email, address);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ptm != null) {
+                    ptm.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return user;
+    }
+    
+        public List<OrderDetail> getPurchaseHistory(int uID) {
+        List<OrderDetail> list = new ArrayList<>();
+        String query = "SELECT * FROM OrderDetail "
+                + "JOIN Product ON OrderDetail.id = Product.id "
+                + "JOIN [Order] ON OrderDetail.orderID = [Order].orderID "
+                + "WHERE [Order].uID = ?";
+
+        try {
+            conn = DBManager.getConnection();
+
+            assert conn != null;
+            ptm = conn.prepareStatement(query);
+            ptm.setInt(1, uID);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                list.add(new OrderDetail(
+                        rs.getInt(1),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getDouble(2),
+                        new Product(
+                                rs.getInt(6),
+                                rs.getString(7),
+                                rs.getString(8),
+                                rs.getDouble(9),
+                                rs.getString(10),
+                                rs.getString(11)
+                        ),
+                        new Order(
+                                rs.getInt(13),
+                                rs.getDate(14),
+                                rs.getDouble(15)
+                        )
+                ));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+        
+            public void upsertUserInformation(InforUser user) throws ClassNotFoundException {
+        String selectQuery = "SELECT * FROM infor WHERE uID = ?";
+        String updateQuery = "UPDATE infor SET name = ?, birthdate = ?, phone = ?, email = ?, address = ? WHERE uID = ?";
+        String insertQuery = "INSERT INTO infor (uID, name, birthdate, phone, email, address) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            conn = new DBManager().getConnection();
+            ptm = conn.prepareStatement(selectQuery);
+            ptm.setInt(1, user.getuID());
+            rs = ptm.executeQuery();
+
+            if (rs.next()) {
+                // Update existing user info
+                ptm = conn.prepareStatement(updateQuery);
+                ptm.setString(1, user.getName());
+                ptm.setDate(2, new java.sql.Date(user.getBirthdate().getTime()));
+                ptm.setString(3, user.getPhone());
+                ptm.setString(4, user.getEmail());
+                ptm.setString(5, user.getAddress());
+                ptm.setInt(6, user.getuID());
+            } else {
+                // Insert new user info
+                ptm = conn.prepareStatement(insertQuery);
+                ptm.setInt(1, user.getuID());
+                ptm.setString(2, user.getName());
+                ptm.setDate(3, new java.sql.Date(user.getBirthdate().getTime()));
+                ptm.setString(4, user.getPhone());
+                ptm.setString(5, user.getEmail());
+                ptm.setString(6, user.getAddress());
+            }
+
+            ptm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ptm != null) ptm.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public UserInfo getUserInfoByID(int uID) {
+        String query = "SELECT * FROM dbo.infor WHERE uID = ?";
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(query);
+            ptm.setInt(1, uID);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                return new UserInfo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
 }
