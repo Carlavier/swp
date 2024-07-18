@@ -48,6 +48,15 @@
                     background-color: #ccc;
                 }
             }
+            .report-nav-item {
+                text-decoration: none;
+                color: white;
+                background-color: #2f445e;
+                padding: 3px 10px;
+                border-radius: 3px 3px 0 0;
+                cursor: pointer;
+                margin-left: 5px;
+            }
         </style>
     <body>
         <div class="left-nav">
@@ -59,63 +68,55 @@
             </c:if>
         </div>
         <div class="container">
-            <div class="table-wrapper">
+            <div class="table-wrapper" style="position: relative">
+                <div style="display: flex; position: absolute; top: -24px; left: 0;">
+                    <a href="/SWP/report-monthly">
+                        <div class="report-nav-item">Monthly Report</div>
+                    </a>
+                    <a href="/SWP/report">
+                        <div class="report-nav-item">Order History</div>
+                    </a>
+                </div>
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2><b>User</b></h2>
+                            <h2><b>Monthly report</b></h2>
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="homecontroll" class="btn btn-primary"><i class="material-icons">home</i>Home</a>
-                            <a href="#addUserModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-						
+	
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="custom-checkbox">
-                                    <input type="checkbox" id="selectAll">
-                                    <label for="selectAll"></label>
-                                </span>
-                            </th>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Birth Date</th>
-                            <th>Phone number</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${listUserInfo}" var="o">
-                            <tr>
-                                <td>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                        <label for="checkbox1"></label>
-                                    </span>
-                                </td>
-                                <td>${o.getUid()}</td>
-                                <td>${o.getName()}</td>
-                                <td>${o.getBirth()}</td>
-                                <td>${o.getPhone()}</td>
-                                <td>${o.getEmail()}</td>
-                                <td>${o.getAddress()}</td>
-                                <td>
-                                    <a 
-                                        onclick="handleEditId(${o.getUid()}, `${o.getName()}`, `${o.getBirth()}`, `${o.getPhone()}`, `${o.getEmail()}`, `${o.getAddress()}`)"
-                                        href="#editUserModal" class="edit" data-toggle="modal"
-                                    ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                        <a class="delete" onclick="showMess(${o.getUid()})" style="cursor: pointer"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                </td>
-                            </tr>
+                <div class="graph-container" style="position: relative; margin-top: 55px">
+                    <div style="display: flex; flex-direction: column; justify-content: flex-end; border-bottom: 2px solid #ccc; border-left: 2px solid #ccc; position: absolute; height: 96%; width: 96%; margin: 1.7%; margin-left: 4%;">
+                        <div style="position: absolute; top: -35px; width: 50px; transform-origin: center; transform: translate(-100%, -50%) rotate(-45deg);">Monthly Income</div>
+                        <div style="position: absolute; width: 100px; height: 100px; top: -60px; left: -1.5px; border-left: 2px solid #ccc;"></div>
+                        <div style="position: absolute; width: 10px; height: 10px; top: -60px; left: -5.5px; border-left: 2px solid #ccc; border-top: 2px solid #ccc; transform: rotate(45deg)"></div>
+                        <div style="position: absolute; width: 10px; height: 10px; right: 0; bottom: -6.5px; border-left: 2px solid #ccc; border-top: 2px solid #ccc; transform: rotate(135deg)"></div>
+                        <div style="position: absolute; right: 0; bottom: -6.5px; transform: translate(50%, 100%)">Month</div>
+                        <c:forEach begin="1" end="${sectionCount}" var="i">
+                            <div class="dash-line" style="border-top: 2px dashed #ccc; width: 100%; height: ${sectionPercentage}%;">
+                                <div style="width: fit-content;">
+                                    <div style="transform-origin: center; transform: translate(-100%, -50%) rotate(-45deg);">
+                                        ${sectionSize * (sectionCount + 1 - i)}
+                                    </div>
+                                </div>
+                            </div>
                         </c:forEach>
-                    </tbody>
-                </table>
-           
+                    </div>
+                    <div style="margin: 0 90px 0 70px; height: 550px; display: flex; justify-content: space-between">
+                        <c:forEach begin="0" end="${percentage.size() - 1}" var="i">
+                        <div style="width: 100px; text-align: center; height: 96%; z-index: 10;">
+                            <div style="height: ${100 - percentage.get(i)}%;"></div>
+                            <div style="color: black">${income.get(i)}</div>
+                            <div style="background-color: #ff9191; height: ${percentage.get(i)}%;"></div>
+                            <div style="color: black">${month.get(i)}</div>
+                        </div>
+                        </c:forEach>
+                    </div>
+                </div>
+                
             </div>
         </div>
         <!-- Edit Modal HTML -->
