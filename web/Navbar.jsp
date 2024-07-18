@@ -18,33 +18,29 @@
 
 </head>
 <!--begin of menu-->
-<jsp:include page="Navbar.jsp"></jsp:include>
-<nav  class="navbar navbar-expand-md navbar-dark" style="background-color: #000000;">
+<nav class="navbar navbar-expand-md navbar-dark" style="background-color: #000000;">
     <div class="container">
-        <a class="navbar-brand" href="homecontroll"  style="font-family: 'lobster', sans-serif; font-size: 24px; color: #fff; text-decoration: none; font-style: italic;">
-            HAMILTON WATCH
+        <a class="navbar-brand" href="homecontroll">
+            <img src="https://www.hamiltonwatch.com/static/version1721134665/frontend/Hamilton/Default/en_US/images/logo.svg" width="200" height="53" alt="Hamilton Logo" class="inverted">
         </a>
-
-
-        <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
-            <ul class="navbar-nav m-auto">
-
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
                 <c:if test="${sessionScope.acc != null}">
                     <li class="nav-item">
                         <a class="nav-link" href="#"><strong> HI ${sessionScope.acc.userName}</strong></a>
                     </li>
                 </c:if>
-                <c:if test= "${sessionScope.acc.role eq 'ad' || sessionScope.acc.role eq 'st'}" >
+                <c:if test="${sessionScope.acc.role eq 'ad'}">
                     <li class="nav-item">
                         <a class="nav-link" href="managercontrol"><strong>MANAGER STORE</strong></a>
                     </li>
                 </c:if>
-              
-
-
                 <c:if test="${sessionScope.acc == null}">
                     <li class="nav-item">
-                        <a class="nav-link"  href="Login.jsp"><strong>LOGIN</strong></a>
+                        <a class="nav-link" href="Login.jsp"><strong>LOGIN</strong></a>
                     </li>
                 </c:if>
                 <c:if test="${sessionScope.acc != null}">
@@ -53,9 +49,7 @@
                     </li>
                 </c:if>
             </ul>
-
-
-            <form action="search" method="post" class="form-inline search-form my-2 my-lg-0">
+            <form action="search" method="post" class="form-inline search-form my-2 my-lg-0 mx-auto">
                 <div class="input-group input-group-sm">
                     <input value="${txtS}" name="txt" type="text" class="form-control search-input" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
                     <div class="input-group-append">
@@ -65,44 +59,24 @@
                     </div>
                 </div>
             </form>
-
             <c:set var="quantity" value="0" />
             <c:if test="${sessionScope.cart != null}">
                 <c:forEach items="${sessionScope.cart.listCart}" var="item">
                     <c:set var="quantity" value="${quantity + item.quantity}" />
                 </c:forEach>
             </c:if>
-
-            <a class="btn btn-success btn-sm ml-3 cart-button" href="Cart.jsp">
-                <i class="fa fa-shopping-cart"></i> Shopping Cart
-                <span class="badge badge-light">${quantity}</span>
+            <a class="btn btn-success btn-sm ml-3 cart-button d-flex align-items-center" href="Cart.jsp">
+                <i class="fa fa-shopping-cart mr-2"></i> Shopping Cart
+                <span class="badge badge-light ml-2">${quantity}</span>
             </a>
-
-
-            
-        
+        </div>
     </div>
 </nav>
 
 
-<div class="video-wrapper" style="background-color: rgba(0, 0, 0, 0.5);">
-    <video autoplay loop muted width="100%" height="30%">
-        <source src="NEW Hamilton Dune watches inspired by the prop they designed for the film.mp4" type="video/mp4">
-    </video>
-</div>
-<div class="pagebuilder-collage-content">
-    <div class="content-wrapper"  style="background-color: transparent; color: #ffffff;">
-        <p class="banner-text" style="font-size: 50px;"><strong>HAMILTON X DUNE</strong></p>
-        <p style="font-size: 18px;">Dive into the realm of Dune Part Two <br> with Hamilton's unique creations</p>
-            <c:url var="homeURL" value="homecontroll" />
-            <c:choose>
-                <c:when test="${empty sessionScope.acc}">
-                <button onclick="window.location.href = '${homeURL}'" class="pagebuilder-banner-button pagebuilder-button-primary pagebuilder-button-transparent" data-element="button" data-pb-style="GKETQ8W" style="font-size: 24px; background-color: transparent; color: #ffffff; border: 2px solid #ffffff; padding: 10px 20px;">DISCOVER</button>
-            </c:when>
-        </c:choose>
 
-    </div>
-</div>
+
+
 
 
 

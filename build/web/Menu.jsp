@@ -18,6 +18,7 @@
 
 </head>
 <!--begin of menu-->
+<jsp:include page="Navbar.jsp"></jsp:include>
 <nav  class="navbar navbar-expand-md navbar-dark" style="background-color: #000000;">
     <div class="container">
         <a class="navbar-brand" href="homecontroll"  style="font-family: 'lobster', sans-serif; font-size: 24px; color: #fff; text-decoration: none; font-style: italic;">
