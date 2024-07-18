@@ -77,6 +77,7 @@ if ("Payment".equals(action)) {
                 for (int i = 0; i < listItem.size(); ++i) {
                     Item currentItem = listItem.get(i);
                     dao.addOrderDetail(currentItem.getTotal(), currentItem.getQuantity(), orderId, currentItem.getProduct().getId());
+                    dao.updateProductQuantity(currentItem.getProduct().getId(), currentItem.getQuantity());
                 }
 
                 // Kết thúc giao dịch

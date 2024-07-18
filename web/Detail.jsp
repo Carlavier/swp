@@ -23,9 +23,10 @@
         <link rel="stylesheet" type="text/css" href="css/reviewForm.css">
         <link rel="stylesheet" type="text/css" href="css/detail.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
-
-
-
+        <script src="js/checkLoginToShopping.js"></script>
+        <script>
+            var isLoggedIn = ${sessionScope.acc != null};
+        </script>
 
 
 
@@ -58,8 +59,8 @@
                                             <dd><p>${detail.description}</p></dd>
                                         </dl>
                                         <div class="btn-group-custom">
-                                            <a href="addandcart?productId=${detail.id}" class="btn btn-lg btn-primary text-uppercase">Buy now</a>
-                                            <a href="addcart?productId=${detail.id}" class="btn btn-lg btn-outline-primary text-uppercase"><i class="fas fa-shopping-cart"></i> Add to cart</a>
+                                            <a onclick="checkLoginClickPrice(${detail.id})"  class="btn btn-lg btn-primary text-uppercase">Buy now</a>
+                                            <a onclick="checkLoginAndAddToCart(${detail.id})"  class="btn btn-lg btn-outline-primary text-uppercase"><i class="fas fa-shopping-cart"></i> Add to cart</a>
                                             <button type="button" class="btn btn-lg btn-info text-uppercase" data-toggle="modal" data-target="#view360Modal">View 360</button>
                                         </div>
                                         <div class="btn-group-custom">
@@ -199,8 +200,8 @@
                     <c:if test="${not empty review.imagePath}">
                         <div class="review-image">
                             <a href="${review.imagePath}" data-lightbox="review-images" data-title="${review.comment}">
-                               <img src="${review.imagePath}" alt="Review Image" class="img-thumbnail">
-                </a>
+                                <img src="${review.imagePath}" alt="Review Image" class="img-thumbnail">
+                            </a>
                             </a>
                         </div>
                     </c:if>
