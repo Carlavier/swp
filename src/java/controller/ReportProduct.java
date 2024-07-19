@@ -6,6 +6,7 @@
 package controller;
 
 import dao.ProductDAO;
+import helper.Helper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
 import model.OrderDetail;
 import model.Product;
 
@@ -31,6 +33,11 @@ public class ReportProduct extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) {
+            response.sendRedirect("homecontroll");
+            return;
+        }
+        
         ProductDAO dao = new ProductDAO();
         List<OrderDetail> orderDetails = dao.getListOrderDetail();
         
@@ -55,6 +62,14 @@ public class ReportProduct extends HttpServlet {
             maxProduct = Integer.max(maxProduct, productCount.get(i));
         }
         products.sort((o1, o2) -> o2.getId() - o1.getId());
+//        if (products.size() > 13) products.get(12).setName("OTHER WATCHES");
+//        while (products.size() > 13) {
+//            products.get(12).setQuantity(products.get(12).getQuantity() + products.get(products.size() - 1).getQuantity());
+//            products.remove(products.size() - 1);
+//        }
+        while (products.size() > 13) {
+            products.remove(products.size() - 1);
+        }
         
         maxProduct += maxProduct / 5;
         ArrayList<Double> percentages = new ArrayList<>();

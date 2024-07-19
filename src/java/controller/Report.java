@@ -8,8 +8,8 @@ package controller;
 import dao.ProductDAO;
 import helper.Helper;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,6 +35,7 @@ public class Report extends HttpServlet {
         
         ProductDAO dao = new ProductDAO();
         ArrayList<Order> listOrder = dao.getListOrder();
+        Collections.reverse(listOrder);
         request.setAttribute("listOrder", listOrder);
         System.out.println(listOrder);
         request.getRequestDispatcher("ManageOrder.jsp").forward(request, response);

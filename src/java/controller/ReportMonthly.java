@@ -31,8 +31,10 @@ public class ReportMonthly extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        if (!Helper.isAdmin((Account)request.getSession().getAttribute("acc"))) response.sendRedirect("homecontroll");
-        
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) {
+            response.sendRedirect("homecontroll");
+            return;
+        }
         ProductDAO dao = new ProductDAO();
         ArrayList<Order> orders = dao.getListOrder();
 

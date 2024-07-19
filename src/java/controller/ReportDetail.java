@@ -31,8 +31,10 @@ public class ReportDetail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        if (!Helper.isAdmin((Account)request.getSession().getAttribute("acc"))) response.sendRedirect("homecontroll");
-        
+        if (!Helper.isAdminOrStaff((Account)request.getSession().getAttribute("acc"))) {
+            response.sendRedirect("homecontroll");
+            return;
+        }
         int orderId = Integer.parseInt(request.getParameter("id"));
         ProductDAO dao = new ProductDAO();
         ArrayList<OrderDetail> listOrderDetail = dao.getListOrderDetail(orderId);
