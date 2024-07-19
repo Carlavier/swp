@@ -87,39 +87,31 @@
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="homecontroll" class="btn btn-primary"><i class="material-icons">home</i>Home</a>
-	
                         </div>
                     </div>
                 </div>
-                <div class="graph-container" style="position: relative; margin-top: 55px">
-                    <div style="display: flex; flex-direction: column; justify-content: flex-end; border-bottom: 2px solid #ccc; border-left: 2px solid #ccc; position: absolute; height: 96%; width: 96%; margin: 1.7%; margin-left: 4%;">
-                        <div style="position: absolute; top: -35px; width: 50px; transform-origin: center; transform: translate(-100%, -50%) rotate(-45deg);">Monthly Income</div>
-                        <div style="position: absolute; width: 100px; height: 100px; top: -60px; left: -1.5px; border-left: 2px solid #ccc;"></div>
-                        <div style="position: absolute; width: 10px; height: 10px; top: -60px; left: -5.5px; border-left: 2px solid #ccc; border-top: 2px solid #ccc; transform: rotate(45deg)"></div>
-                        <div style="position: absolute; width: 10px; height: 10px; right: 0; bottom: -6.5px; border-left: 2px solid #ccc; border-top: 2px solid #ccc; transform: rotate(135deg)"></div>
-                        <div style="position: absolute; right: 0; bottom: -6.5px; transform: translate(50%, 100%)">Month</div>
+                <div style="margin-left: -8px; position: relative;">
+                    <div style="height: 100%; width: calc(100% - 187px); border-left: 2px solid #ccc; border-bottom: 2px solid #ccc; display: flex; position: absolute; margin-left: 169px">
                         <c:forEach begin="1" end="${sectionCount}" var="i">
-                            <div class="dash-line" style="border-top: 2px dashed #ccc; width: 100%; height: ${sectionPercentage}%;">
-                                <div style="width: fit-content;">
-                                    <div style="transform-origin: center; transform: translate(-100%, -50%) rotate(-45deg);">
-                                        ${sectionSize * (sectionCount + 1 - i)}
-                                    </div>
+                            <div style="position: relative; flex-grow: ${sectionPercentage};border-right: 2px dashed #ccc;">
+                                <div style="position: absolute; right: 0; bottom: 0; width: fit-content;">
+                                    <div style="transform: translate(50%, 20px);">${i * sectionSize}</div>
                                 </div>
                             </div>
                         </c:forEach>
                     </div>
-                    <div style="margin: 0 90px 0 70px; height: 550px; display: flex; justify-content: space-between">
-                        <c:forEach begin="0" end="${percentage.size() - 1}" var="i">
-                        <div style="width: 100px; text-align: center; height: 96%; z-index: 10;">
-                            <div style="height: ${100 - percentage.get(i)}%;"></div>
-                            <div style="color: black">${income.get(i)}</div>
-                            <div style="background-color: #ff9191; height: ${percentage.get(i)}%;"></div>
-                            <div style="color: black">${month.get(i)}</div>
-                        </div>
+                    <div>
+                        <c:forEach begin="0" end="${percentages.size() - 1}" var="i">
+                            <div style="display: flex; align-items: center; margin-top: 10px">
+                                <div style="text-align: right; margin-right: 10px">
+                                    <div style="width: 160px;">${products.get(i).getName()}</div>
+                                </div>
+                                <div style="flex-grow: ${percentages.get(i) / 100}; height: 20px; background-color: #FF9191;"></div>
+                                <div style="margin-left: 10px">${products.get(i).getQuantity()}</div>
+                            </div>
                         </c:forEach>
                     </div>
                 </div>
-                
             </div>
         </div>
         <!-- Edit Modal HTML -->

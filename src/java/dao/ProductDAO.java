@@ -34,6 +34,35 @@ public class ProductDAO {
 
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+    
+    public List<OrderDetail> getListOrderDetail() {
+        List<OrderDetail> list = new ArrayList<>();
+        String query = "select * from OrderDetail join Product on OrderDetail.id = Product.id";
+
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(query);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                list.add(new OrderDetail(
+                        rs.getInt(1),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getDouble(2),
+                        new Product(
+                                rs.getInt(6),
+                                rs.getString(7),
+                                rs.getString(8),
+                                rs.getDouble(9),
+                                rs.getString(10),
+                                rs.getString(11)
+                        )
+                ));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
 
     public List<UserInfo> listUserInfoRestricted() {
         List<UserInfo> list = new ArrayList<>();
@@ -433,7 +462,7 @@ public class ProductDAO {
 //    }
     
     public Order createOrder(java.sql.Date orderDate, double total, int uID) {
-        String query = "INSERT INTO [dbo].[Order] (orderDate, total, uID) VALUES (?, ?, ?)";
+        String query = "INSERT INTO [dbo].[Order] (orderDate, total) VALUES (?, ?)";
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet generatedKeys = null;
@@ -444,7 +473,7 @@ public class ProductDAO {
             ptm = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ptm.setDate(1, orderDate);
             ptm.setDouble(2, total);
-            ptm.setInt(3, uID);
+//            ptm.setInt(3, uID);
             ptm.executeUpdate();
 
             generatedKeys = ptm.getGeneratedKeys();
@@ -454,7 +483,7 @@ public class ProductDAO {
                 order.setOrderID(orderID); // Đặt orderID cho đối tượng Order
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         } finally {
             // Đóng kết nối và tài nguyên
             try {
