@@ -74,12 +74,13 @@ public class AddControl extends HttpServlet {
         String name_add = request.getParameter("name");
         String image_add = request.getParameter("image");
         String price_add = request.getParameter("price");
+        String quantity_add = request.getParameter("quantity");
         String title_add = request.getParameter("title");
         String description_add = request.getParameter("description");
         String category_add = request.getParameter("category");
         
         ProductDAO dao = new ProductDAO();
-        dao.insertProduct(name_add, image_add, price_add, title_add, description_add, category_add);
+        dao.insertProduct(name_add, image_add, price_add, title_add, description_add, category_add, Integer.parseInt(quantity_add));
         
         
         response.sendRedirect("managercontrol");

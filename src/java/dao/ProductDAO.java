@@ -391,9 +391,9 @@ public class ProductDAO {
 
     }
 
-    public void insertProduct(String name, String image, String price, String title, String description, String category) {
-        String query = "insert into [dbo].[Product]([name],[image],[price],[title],[description],[categoryID])\n"
-                + "values(?,?,?,?,?,?)";
+    public void insertProduct(String name, String image, String price, String title, String description, String category, int quantity) {
+        String query = "insert into [dbo].[Product]([name],[image],[price],[title],[description],[categoryID],[quantity])\n"
+                + "values(?,?,?,?,?,?,?)";
         try {
             conn = new DBManager().getConnection();//mo ket noi voi sql
             ptm = conn.prepareStatement(query);
@@ -403,6 +403,7 @@ public class ProductDAO {
             ptm.setString(4, title);
             ptm.setString(5, description);
             ptm.setString(6, category);
+            ptm.setInt(7, quantity);
 
             ptm.executeUpdate();
         } catch (Exception e) {
@@ -411,14 +412,15 @@ public class ProductDAO {
 
     }
 
-    public void editProduct(String id, String name, String image, String price, String title, String description, String category) {
+    public void editProduct(String id, String name, String image, String price, String title, String description, String category, int quantity) {
         String query = "UPDATE [dbo].[Product]\n"
                 + "SET name = ?,\n"
                 + "image = ?,\n"
                 + "price = ?,\n"
                 + "title = ?,\n"
                 + "description = ?,\n"
-                + "categoryID = ?\n"
+                + "categoryID = ?,\n"
+                + "quantity = ?\n"
                 + "WHERE id = ?";
 
         try {
@@ -431,11 +433,13 @@ public class ProductDAO {
             ptm.setString(4, title);
             ptm.setString(5, description);
             ptm.setString(6, category);
-            ptm.setString(7, id);
+            ptm.setInt(7, quantity);
+            ptm.setString(8, id);
 
             ptm.executeUpdate();
 
         } catch (Exception e) {
+            System.out.println(e);
         }
 
     }
