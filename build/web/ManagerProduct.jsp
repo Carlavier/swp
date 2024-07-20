@@ -1,4 +1,4 @@
-<%-- 
+    <%-- 
     Document   : ManagerProduct
     Created on : Dec 28, 2020, 5:19:02 PM
     Author     : trinh
@@ -85,6 +85,7 @@
                             <th>Name</th>
                             <th>Image</th>
                             <th>Price</th>
+                            <th>Quantity</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -102,10 +103,11 @@
                                 <td>
                                     <img src="${o.image}">
                                 </td>
-                                <td>${o.price} $</td>
+                                <td>${o.price}$</td>
+                                <td>${o.quantity}</td>
                                 <td>
                                     <a 
-                                        onclick="handleEditId(${o.id}, `${o.name}`, `${o.image}`, `${o.price}`, `${o.title}`, `${o.description}`)"
+                                        onclick="handleEditId(${o.id}, `${o.name}`, `${o.image}`, `${o.price}`, `${o.title}`, `${o.description}`, `${o.quantity}`)"
                                         href="#editWatchModal"  class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                     <a style="cursor: pointer" class="delete" onclick="showMess(${o.id})"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
@@ -137,6 +139,10 @@
                             <div class="form-group">
                                 <label>Price</label>
                                 <input name="price" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input name="quantity" type="number" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Title</label>
@@ -191,6 +197,10 @@
                                 <input name="price" type="text" class="form-control" required id="edit-price">
                             </div>
                             <div class="form-group">
+                                <label>Quantity</label>
+                                <input name="quantity" type="number" class="form-control" required id="edit-quantity">
+                            </div>
+                            <div class="form-group">
                                 <label>Title</label>
                                 <textarea name="title" class="form-control" required id="edit-title"></textarea>
                             </div>
@@ -240,13 +250,14 @@
         </div>
         <script src="js/manager.js" type="text/javascript"></script>
         <script>
-            function handleEditId(id, name, image, price, title, description) {
+            function handleEditId(id, name, image, price, title, description, quantity) {
                 document.querySelector("#edit-id").value = id;
                 document.querySelector("#edit-name").value = name;
                 document.querySelector("#edit-image").value = image;
                 document.querySelector("#edit-price").value = price;
                 document.querySelector("#edit-title").value = title;
                 document.querySelector("#edit-description").value = description;
+                document.querySelector("#edit-quantity").value = quantity;
             }
             function showMess(id) {
                 var option = confirm("Are you sure to delete " + id);

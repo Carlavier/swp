@@ -74,12 +74,13 @@ public class EditControl extends HttpServlet {
         String name_edit = request.getParameter("name");
         String image_edit = request.getParameter("image");
         String price_edit = request.getParameter("price");
+        String quantity_edit = request.getParameter("quantity");
         String title_edit = request.getParameter("title");
         String description_edit = request.getParameter("description");
         String category_edit = request.getParameter("category");
         
         ProductDAO dao = new ProductDAO();
-        dao.editProduct(id_edit, name_edit, image_edit, price_edit, title_edit, description_edit, category_edit);
+        dao.editProduct(id_edit, name_edit, image_edit, price_edit, title_edit, description_edit, category_edit, Integer.parseInt(quantity_edit));
         
         response.sendRedirect("managercontrol");
     }

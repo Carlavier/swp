@@ -73,6 +73,9 @@
                     <a href="/SWP/report-monthly">
                         <div class="report-nav-item">Monthly Report</div>
                     </a>
+                    <a href="/SWP/report-product">
+                        <div class="report-nav-item">Product Report</div>
+                    </a>
                     <a href="/SWP/report">
                         <div class="report-nav-item">Order History</div>
                     </a>
