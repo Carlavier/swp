@@ -63,7 +63,10 @@ public class HomeControll extends HttpServlet {
         request.setAttribute("listP", listP);
         request.setAttribute("page", page);
         request.setAttribute("num", numpage);
+         
+        
         request.getRequestDispatcher("Home.jsp").forward(request, response);
+        
     }
 
     @Override

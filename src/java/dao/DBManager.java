@@ -20,7 +20,7 @@ public class DBManager {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String url = "jdbc:sqlserver://localhost:1433;databaseName=Assignment;encrypt=false;";
         String user = "sa";
-        String pw = "123456789";
+        String pw = "de170033";
         con = DriverManager.getConnection(url, user, pw);
         return con;
     }
