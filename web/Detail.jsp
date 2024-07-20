@@ -28,52 +28,116 @@
             var isLoggedIn = ${sessionScope.acc != null};
         </script>
 
-
-
+           <style>
+        html, body {
+            background-color: black !important;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 85px;
+        }
+        .card {
+            background-color: #3d2e27 !important;
+            border: none;
+            color: #fff;
+        }
+        .card-body {
+            background-color: #3d2e27;
+        }
+        .btn-group-custom .btn {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .transparent-btn {
+            background-color: transparent !important;
+            border: 2px solid #fff !important;
+            color: #fff !important;
+        }
+        .transparent-btn:hover {
+            background-color: #fff !important;
+            color: #3d2e27 !important;
+        }
+        .img-big-wrap img {
+            width: 100%;
+            height: auto;
+        }
+        .img-small-wrap {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .img-small-wrap img {
+            width: 48%;
+            height: auto;
+        }
+        .price-detail-wrap {
+            margin-bottom: 20px;
+        }
+        h3.title {
+            font-size: 2rem;
+        }
+        .item-property {
+            margin-bottom: 20px;
+        }
+        .border-right {
+            border-right: 1px solid #fff !important;
+        }
+        .equal-height {
+            display: flex;
+            align-items: stretch;
+        }
+        .reviews-section {
+            background-color: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 5px;
+        }
+       
+    </style>
     </head>
+    
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="container">
-                        <div class="card">
-                            <div class="row">
-                                <aside class="col-sm-5 border-right">
-                                    <article class="gallery-wrap">
-                                        <div class="img-big-wrap">
-                                            <div><a href="#"><img src="${detail.image}" alt="Product Image"></a></div>
-                                        </div>
-                                        <div class="img-small-wrap"></div>
-                                    </article>
-                                </aside>
-                                <aside class="col-sm-7">
-                                    <article class="card-body p-5">
-                                        <h3 class="title mb-3">${detail.name}</h3>
-                                        <p class="price-detail-wrap">
-                                            <span class="price h3 text-danger">
-                                                <span class="currency">$</span><span class="num">${detail.price}</span>
-                                            </span>
-                                        </p>
-                                        <dl class="item-property">
-                                            <dt>Description</dt>
-                                            <dd><p>${detail.description}</p></dd>
-                                        </dl>
-                                        <div class="btn-group-custom">
-                                            <a onclick="checkLoginClickPrice(${detail.id})"  class="btn btn-lg btn-primary text-uppercase">Buy now</a>
-                                            <a onclick="checkLoginAndAddToCart(${detail.id})"  class="btn btn-lg btn-outline-primary text-uppercase"><i class="fas fa-shopping-cart"></i> Add to cart</a>
-                                            <button type="button" class="btn btn-lg btn-info text-uppercase" data-toggle="modal" data-target="#view360Modal">View 360</button>
-                                        </div>
-                                        <div class="btn-group-custom">
-                                            <a href="homecontroll" class="btn btn-lg btn-secondary text-uppercase">Back to Home</a>
-                                        </div>
-                                    </article>
-                                </aside>
-                            </div>
+        <jsp:include page="Navbar.jsp"></jsp:include>
+ <div class="container">
+     <div class="row" >
+         <div class="col-sm-12  " style="background-color:#3d2e27 !important" >
+                <div class="container">
+                    <div class="card">
+                        <div class="row equal-height">
+                            <aside class="col-sm-5 border-right">
+                                <article class="gallery-wrap">
+                                    <div class="img-big-wrap">
+                                        <div><a href="#"><img src="${detail.image}" alt="Product Image"></a></div>
+                                    </div>
+                                    <div class="img-small-wrap"></div>
+                                </article>
+                            </aside>
+                            <aside class="col-sm-7">
+                                <article class="card-body p-5">
+                                    <h3 class="title mb-3">${detail.name}</h3>
+                                    <p class="price-detail-wrap">
+                                        <span class="price h3 text-danger">
+                                            <span class="currency">$</span><span class="num">${detail.price}</span>
+                                        </span>
+                                    </p>
+                                    <dl class="item-property">
+                                        <dt>Description</dt>
+                                        <dd><p>${detail.description}</p></dd>
+                                    </dl>
+                                    <div class="btn-group-custom">
+                                        <a onclick="checkLoginClickPrice(${detail.id})" class="btn btn-lg btn-primary text-uppercase transparent-btn">Buy now</a>
+                                        <a onclick="checkLoginAndAddToCart(${detail.id})" class="btn btn-lg btn-outline-primary text-uppercase transparent-btn"><i class="fas fa-shopping-cart"></i> Add to cart</a>
+                                        <button type="button" class="btn btn-lg btn-info text-uppercase transparent-btn" data-toggle="modal" data-target="#view360Modal">View 360</button>
+                                    </div>
+                                </article>
+                            </aside>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
         <!-- Modal 360 View -->
         <div class="modal fade" id="view360Modal" tabindex="-1" role="dialog" aria-labelledby="view360ModalLabel" aria-hidden="true">
@@ -200,8 +264,8 @@
                     <c:if test="${not empty review.imagePath}">
                         <div class="review-image">
                             <a href="${review.imagePath}" data-lightbox="review-images" data-title="${review.comment}">
-                                <img src="${review.imagePath}" alt="Review Image" class="img-thumbnail">
-                            </a>
+                               <img src="${review.imagePath}" alt="Review Image" class="img-thumbnail">
+                </a>
                             </a>
                         </div>
                     </c:if>
@@ -218,6 +282,9 @@
                 });
             });
         </script>
+
+        <jsp:include page="Footer.jsp"></jsp:include>
+
 
 
 

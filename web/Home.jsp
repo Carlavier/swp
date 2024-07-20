@@ -20,31 +20,72 @@
 
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link href="css/category.css" rel="stylesheet" type="text/css"/>
+
         <script src="js/checkLoginToShopping.js"></script>
         <script>
             var isLoggedIn = ${sessionScope.acc != null};
         </script>
-   
+        
+
 
     </head>
     <body>
         <jsp:include page="Navbar.jsp"></jsp:include>
+        <%
+            String currentURL = request.getRequestURI();
+            String queryString = request.getQueryString();
+            boolean hideTopBlock = false;
+
+            // Kiểm tra nếu đường dẫn chứa "/search" hoặc là trang search
+            if (currentURL != null && (currentURL.contains("/search") || currentURL.equals("/SWP/search"))) {
+                hideTopBlock = true;
+            }
+
+            // Kiểm tra nếu có tham số page hoặc cid trong chuỗi truy vấn
+            if (queryString != null && (queryString.startsWith("page=") || queryString.startsWith("cid="))) {
+                hideTopBlock = true;
+            }
+        %>
+
+        <div class="top-block" <% if (hideTopBlock) { %> style="display: none;" <% }%>>
+            <img src="https://www.hamiltonwatch.com/media/wysiwyg/INT_HQ/2024-Homepage/Q3-Homepage/July/Hero-mecha.jpg" alt="Top Block Image">
+            <div class="text-overlay">
+                <h1>THE ORIGINAL FIELD</h1>
+                <h1 class="text-center">  WATCH</h1>
+                <br>
+                <h5>New colors for a time-tested icon: three new </h5>
+                <h5 class="text-center">Khaki Field Mechanical references</h5>
+            </div>
+        </div>
 
 
-            <div class="container">
-                <div class="row">
-                    <div class="col text-center"> 
-                        <h3> WRIST WATCHES </h3>
-                        </ol>
-                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col text-center"> 
+                    <h3> WRIST WATCHES </h3>
+                    </ol>
                 </div>
             </div>
+        </div>
 
 
 
 
-            <div class="col-sm-12">
-                <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
                 <c:forEach items="${listP}" var="o">
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card position-relative">
@@ -69,15 +110,19 @@
                                 <c:if test="${o.quantity ne 0}">
                                     <div class="row">
                                         <div class="col">
-                                            <p class="btn btn-danger btn-block" onclick="checkLoginClickPrice(${o.id})">
-                                                <a style="color: white" href="#">${o.price} $</a>
+                                            <p class="btn btn-block price-button" onclick="checkLoginClickPrice(${o.id})">
+                                                <span class="price-text">${o.price} $</span>
                                             </p>
                                         </div>
                                         <div class="col">
-                                            <a href="#" class="btn btn-block" style="background-color: green; color: white" onclick="checkLoginAndAddToCart(${o.id})">Add to cart</a>
+                                            <a href="#" class="btn btn-block add-to-cart-button" onclick="checkLoginAndAddToCart(${o.id})">Add To Cart</a>
                                         </div>
                                     </div>
+
                                 </c:if>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -195,9 +240,9 @@
     <div class="register-block row">
         <div class="register-text col-md-6">
             <h2>REGISTER MY WATCH</h2>
-             <p>You can now register your Hamilton watches into your Hamilton account. Sign up, add your watch to your collection and enjoy the full Tissot Experience. Want to personalize your watch with a compatible strap? Want to know about your warranty status? Want to know how to get the most of your watch thanks to your user guide? Want to access your past order and personal information? All you need is accessible in your account.</p>
-          <button class="register-button" onclick="window.location.href='signup.jsp'">REGISTER</button>
-            </div>
+            <p>You can now register your Hamilton watches into your Hamilton account. Sign up, add your watch to your collection and enjoy the full Tissot Experience. Want to personalize your watch with a compatible strap? Want to know about your warranty status? Want to know how to get the most of your watch thanks to your user guide? Want to access your past order and personal information? All you need is accessible in your account.</p>
+            <button class="register-button" onclick="window.location.href = 'signup.jsp'">REGISTER</button>
+        </div>
         <div class="watch-image col-md-6">
             <img src="https://www.tissotwatches.com/media/content_push/RMW_Image_1.jpg?im=Resize=(1784,1338)" alt="Watches">
         </div>
