@@ -10,6 +10,12 @@ public class Order {
     private int orderID;
     private Date orderDate;
     private double total;
+    
+    public Order() {
+        this.orderID = -1;
+        this.orderDate = new Date();
+        this.total = -1;
+    }
 
     // Constructor
     public Order(int orderID, Date orderDate, double total) {

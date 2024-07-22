@@ -18,72 +18,7 @@
 
 </head>
 <!--begin of menu-->
-<nav  class="navbar navbar-expand-md navbar-dark" style="background-color: #000000;">
-    <div class="container">
-        <a class="navbar-brand" href="homecontroll"  style="font-family: 'lobster', sans-serif; font-size: 24px; color: #fff; text-decoration: none; font-style: italic;">
-            HAMILTON WATCH
-        </a>
-
-
-        <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
-            <ul class="navbar-nav m-auto">
-
-                <c:if test="${sessionScope.acc != null}">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><strong> HI ${sessionScope.acc.userName}</strong></a>
-                    </li>
-                </c:if>
-                <c:if test= "${sessionScope.acc.role eq 'ad' || sessionScope.acc.role eq 'st'}" >
-                    <li class="nav-item">
-                        <a class="nav-link" href="managercontrol"><strong>MANAGER STORE</strong></a>
-                    </li>
-                </c:if>
-              
-
-
-                <c:if test="${sessionScope.acc == null}">
-                    <li class="nav-item">
-                        <a class="nav-link"  href="Login.jsp"><strong>LOGIN</strong></a>
-                    </li>
-                </c:if>
-                <c:if test="${sessionScope.acc != null}">
-                    <li class="nav-item">
-                        <a class="nav-link" href="logoutcontrol"><strong>LOGOUT</strong></a>
-                    </li>
-                </c:if>
-            </ul>
-
-
-            <form action="search" method="post" class="form-inline search-form my-2 my-lg-0">
-                <div class="input-group input-group-sm">
-                    <input value="${txtS}" name="txt" type="text" class="form-control search-input" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Search...">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary btn-number search-button">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            <c:set var="quantity" value="0" />
-            <c:if test="${sessionScope.cart != null}">
-                <c:forEach items="${sessionScope.cart.listCart}" var="item">
-                    <c:set var="quantity" value="${quantity + item.quantity}" />
-                </c:forEach>
-            </c:if>
-
-            <a class="btn btn-success btn-sm ml-3 cart-button" href="Cart.jsp">
-                <i class="fa fa-shopping-cart"></i> Shopping Cart
-                <span class="badge badge-light">${quantity}</span>
-            </a>
-
-
-            
-        
-    </div>
-</nav>
-
-
+<jsp:include page="Navbar.jsp"></jsp:include>
 <div class="video-wrapper" style="background-color: rgba(0, 0, 0, 0.5);">
     <video autoplay loop muted width="100%" height="30%">
         <source src="NEW Hamilton Dune watches inspired by the prop they designed for the film.mp4" type="video/mp4">

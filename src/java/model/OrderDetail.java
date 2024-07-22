@@ -9,6 +9,24 @@ public class OrderDetail {
     private int detailId, quantity, orderId;
     private double price;
     private Product product;
+    private Order order;
+    
+    public OrderDetail() {
+        this.detailId = -1;
+        this.quantity = -1;
+        this.orderId = -1;
+        this.price = -1;
+        this.product = new Product();
+        this.order = new Order();
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     public OrderDetail(int detailId, int quantity, int orderId, double price, Product product) {
         this.detailId = detailId;
@@ -16,6 +34,15 @@ public class OrderDetail {
         this.orderId = orderId;
         this.price = price;
         this.product = product;
+    }
+
+    public OrderDetail(int detailId, int quantity, int orderId, double price, Product product, Order order) {
+        this.detailId = detailId;
+        this.quantity = quantity;
+        this.orderId = orderId;
+        this.price = price;
+        this.product = product;
+        this.order = order;
     }
 
     public int getDetailId() {

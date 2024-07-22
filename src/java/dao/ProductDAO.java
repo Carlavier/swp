@@ -12,8 +12,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Account;
 import model.Category;
+import model.InforUser;
 import model.Order;
 import model.OrderDetail;
 import model.Product;
@@ -31,11 +34,11 @@ public class ProductDAO {
 
     java.util.Date utilDate = new java.util.Date();
     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-    
+
     public List<UserInfo> listUserInfoRestricted() {
         List<UserInfo> list = new ArrayList<>();
         String query = "select * from dbo.infor join dbo.accs on dbo.infor.\"uID\" = dbo.accs.\"uID\" where \"role\" = 'us'";
-        
+
         try {
             conn = DBManager.getConnection();
             ptm = conn.prepareStatement(query);
@@ -48,7 +51,7 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public ArrayList<OrderDetail> getListOrderDetail(int orderID) {
         String sql = "select * from [OrderDetail] join [Product] on [OrderDetail].id = [Product].id where [OrderDetail].orderID = " + orderID;
         ArrayList<OrderDetail> listOrderDetail = new ArrayList<>();
@@ -76,7 +79,7 @@ public class ProductDAO {
         }
         return listOrderDetail;
     }
-    
+
     public ArrayList<Order> getListOrder() {
         String sql = "select * from [Order]";
         ArrayList<Order> listOrder = new ArrayList<Order>();
@@ -92,7 +95,7 @@ public class ProductDAO {
         }
         return listOrder;
     }
-    
+
     public void addOrderDetail(double price, int quantity, int orderID, int productID) {
         String sql = "insert into dbo.OrderDetail(price, quantity, orderID, id) values (" + price + ", " + quantity + ", " + orderID + ", " + productID + ")";
         try {
@@ -102,11 +105,11 @@ public class ProductDAO {
         } catch (Exception e) {
         }
     }
-    
+
     public void deleteUser(int uid) {
         String sql1 = "delete from infor where \"uID\"=" + uid;
         String sql2 = "delete from accs where \"uID\"=" + uid;
-        
+
         try {
             conn = DBManager.getConnection();
             ptm = conn.prepareStatement(sql1);
@@ -116,7 +119,7 @@ public class ProductDAO {
         } catch (Exception e) {
         }
     }
-    
+
     public void editInfo(int uid, String name, String birthdate, String phone, String email, String address) {
         String sql = "update infor set \"name\"='" + name + "',birthdate='" + birthdate + "',phone='" + phone + "',email='" + email + "',\"address\"='" + address + "'where \"uID\" = " + uid;
 //        System.out.println(sql);
@@ -128,10 +131,10 @@ public class ProductDAO {
         } catch (Exception e) {
         }
     }
-    
+
     public void addInfo(int uid, String name, String birthdate, String phone, String email, String address) {
         String sql = "insert into infor(\"uID\", \"name\", birthdate, phone, email, \"address\") values(" + uid + ", '" + name + "', '" + birthdate + "', '" + phone + "', '" + email + "', '" + address + "')";
-        
+
         try {
             conn = DBManager.getConnection();
             ptm = conn.prepareStatement(sql);
@@ -140,10 +143,10 @@ public class ProductDAO {
         } catch (Exception e) {
         }
     }
-    
+
     public int addAccount(String username, String password, String role) {
         String sql = "insert into accs(\"user\", pass, \"role\") values('" + username + "', '" + password + "', '" + role + "')";
-        
+
         try {
             conn = DBManager.getConnection();
             ptm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -159,7 +162,7 @@ public class ProductDAO {
     public List<UserInfo> listUserInfo() {
         List<UserInfo> list = new ArrayList<>();
         String query = "select * from dbo.infor";
-        
+
         try {
             conn = DBManager.getConnection();
             ptm = conn.prepareStatement(query);
@@ -172,23 +175,35 @@ public class ProductDAO {
         }
         return list;
     }
-    
+
     public List<Product> listProduct() {
         List<Product> list = new ArrayList<>();
-        String query = "select * from dbo.Product";
+        String query = "SELECT * FROM dbo.Product";
 
         try {
             conn = DBManager.getConnection();
             ptm = conn.prepareStatement(query);
             rs = ptm.executeQuery();
             while (rs.next()) {
-                Product p = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5), rs.getString(6));
+                Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("image"), rs.getDouble("price"), rs.getString("title"), rs.getString("description"));
+                p.setQuantity(rs.getInt("quantity")); // Đặt giá trị cho quantity
                 list.add(p);
             }
-
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return list;
+    }
+
+    public void updateProductQuantity(int productId, int quantity) throws SQLException {
+        String query = "UPDATE Product SET quantity = quantity - ? WHERE id = ?";
+        try (Connection conn = DBManager.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, quantity);
+            ps.setInt(2, productId);
+            ps.executeUpdate();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public List<Product> getListByPage(List<Product> list, int start, int end) {
@@ -213,7 +228,9 @@ public class ProductDAO {
                         rs.getString(3),
                         rs.getDouble(4),
                         rs.getString(5),
-                        rs.getString(6)));
+                        rs.getString(6),
+                        rs.getInt(8)));
+
             }
         } catch (Exception e) {
         }
@@ -222,8 +239,7 @@ public class ProductDAO {
 
     public List<Product> searchByName(String txtSearch) {
         List<Product> list = new ArrayList<>();
-        String query = "select * from Product \n"
-                + "where [name] LIKE ?";
+        String query = "select * from Product where [name] LIKE ?";
         try {
             conn = new DBManager().getConnection();//mo ket noi voi sql
             ptm = conn.prepareStatement(query);
@@ -235,9 +251,11 @@ public class ProductDAO {
                         rs.getString(3),
                         rs.getDouble(4),
                         rs.getString(5),
-                        rs.getString(6)));
+                        rs.getString(6),
+                        rs.getInt(8)));  // Thêm trường này
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return list;
     }
@@ -272,14 +290,13 @@ public class ProductDAO {
             rs = ptm.executeQuery();
             while (rs.next()) {
                 list.add(new Category(rs.getInt(1),
-                        rs.getString(2)));
+                        rs.getString(2)
+                ));
             }
         } catch (Exception e) {
         }
         return list;
     }
-
-  
 
     public Account checkLogin(String username, String password) {
         String query = "select * from accs where [user] = ? AND pass=? ";
@@ -411,47 +428,48 @@ public class ProductDAO {
 //        }
 //    }
     
- public Order createOrder(java.sql.Date orderDate, double total) {
-    String query = "INSERT INTO [dbo].[Order] (orderDate, total) VALUES (?, ?)";
-    Connection conn = null;
-    PreparedStatement ptm = null;
-    ResultSet generatedKeys = null;
-    Order order = null; // Khởi tạo đối tượng Order
-    
-    try {
-        conn = new DBManager().getConnection();
-        ptm = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        ptm.setDate(1, orderDate);
-        ptm.setDouble(2, total);
-        ptm.executeUpdate();
+    public Order createOrder(java.sql.Date orderDate, double total, int uID) {
+        String query = "INSERT INTO [dbo].[Order] (orderDate, total, uID) VALUES (?, ?, ?)";
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet generatedKeys = null;
+        Order order = null; // Khởi tạo đối tượng Order
 
-        generatedKeys = ptm.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            int orderID = generatedKeys.getInt(1);
-            order = new Order(orderID, utilDate, total);
-            order.setOrderID(orderID); // Đặt orderID cho đối tượng Order
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        // Đóng kết nối và tài nguyên
         try {
-            if (generatedKeys != null) {
-                generatedKeys.close();
-            }
-            if (ptm != null) {
-                ptm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
+            conn = new DBManager().getConnection();
+            ptm = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ptm.setDate(1, orderDate);
+            ptm.setDouble(2, total);
+            ptm.setInt(3, uID);
+            ptm.executeUpdate();
 
-    return order; // Trả về đối tượng Order
-}
+            generatedKeys = ptm.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int orderID = generatedKeys.getInt(1);
+                order = new Order(orderID, utilDate, total);
+                order.setOrderID(orderID); // Đặt orderID cho đối tượng Order
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng kết nối và tài nguyên
+            try {
+                if (generatedKeys != null) {
+                    generatedKeys.close();
+                }
+                if (ptm != null) {
+                    ptm.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return order; // Trả về đối tượng Order
+    }
 
 
 
@@ -489,8 +507,6 @@ public class ProductDAO {
         }
 
     }
-    
-    
 
     public void updateUser(int id, String address, java.sql.Date birthdate, String phone, String mail) {
         String query = "UPDATE accs\n"
@@ -533,5 +549,142 @@ public class ProductDAO {
         return null;
     }
 
-  
+    public InforUser getUserInformation(int userID) throws ClassNotFoundException {
+        String selectQuery = "SELECT * FROM infor WHERE uID = ?";
+        InforUser user = null;
+
+        try {
+            conn = new DBManager().getConnection();
+            ptm = conn.prepareStatement(selectQuery);
+            ptm.setInt(1, userID);
+            rs = ptm.executeQuery();
+
+            if (rs.next()) {
+                String name = rs.getString("name");
+                Date birthdate = rs.getDate("birthdate");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+
+                user = new InforUser(userID, name, birthdate, phone, email, address);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ptm != null) {
+                    ptm.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return user;
+    }
+    
+        public List<OrderDetail> getPurchaseHistory(int uID) {
+        List<OrderDetail> list = new ArrayList<>();
+        String query = "SELECT * FROM OrderDetail "
+                + "JOIN Product ON OrderDetail.id = Product.id "
+                + "JOIN [Order] ON OrderDetail.orderID = [Order].orderID "
+                + "WHERE [Order].uID = ?";
+
+        try {
+            conn = DBManager.getConnection();
+
+            assert conn != null;
+            ptm = conn.prepareStatement(query);
+            ptm.setInt(1, uID);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                list.add(new OrderDetail(
+                        rs.getInt(1),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getDouble(2),
+                        new Product(
+                                rs.getInt(6),
+                                rs.getString(7),
+                                rs.getString(8),
+                                rs.getDouble(9),
+                                rs.getString(10),
+                                rs.getString(11)
+                        ),
+                        new Order(
+                                rs.getInt(13),
+                                rs.getDate(15),
+                                rs.getDouble(16)
+                        )
+                ));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+        
+            public void upsertUserInformation(InforUser user) throws ClassNotFoundException {
+        String selectQuery = "SELECT * FROM infor WHERE uID = ?";
+        String updateQuery = "UPDATE infor SET name = ?, birthdate = ?, phone = ?, email = ?, address = ? WHERE uID = ?";
+        String insertQuery = "INSERT INTO infor (uID, name, birthdate, phone, email, address) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            conn = new DBManager().getConnection();
+            ptm = conn.prepareStatement(selectQuery);
+            ptm.setInt(1, user.getuID());
+            rs = ptm.executeQuery();
+
+            if (rs.next()) {
+                // Update existing user info
+                ptm = conn.prepareStatement(updateQuery);
+                ptm.setString(1, user.getName());
+                ptm.setDate(2, new java.sql.Date(user.getBirthdate().getTime()));
+                ptm.setString(3, user.getPhone());
+                ptm.setString(4, user.getEmail());
+                ptm.setString(5, user.getAddress());
+                ptm.setInt(6, user.getuID());
+            } else {
+                // Insert new user info
+                ptm = conn.prepareStatement(insertQuery);
+                ptm.setInt(1, user.getuID());
+                ptm.setString(2, user.getName());
+                ptm.setDate(3, new java.sql.Date(user.getBirthdate().getTime()));
+                ptm.setString(4, user.getPhone());
+                ptm.setString(5, user.getEmail());
+                ptm.setString(6, user.getAddress());
+            }
+
+            ptm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ptm != null) ptm.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public UserInfo getUserInfoByID(int uID) {
+        String query = "SELECT * FROM dbo.infor WHERE uID = ?";
+        try {
+            conn = DBManager.getConnection();
+            ptm = conn.prepareStatement(query);
+            ptm.setInt(1, uID);
+            rs = ptm.executeQuery();
+            while (rs.next()) {
+                return new UserInfo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
 }
