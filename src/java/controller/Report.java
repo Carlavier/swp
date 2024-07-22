@@ -31,7 +31,10 @@ public class Report extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        if (!Helper.isAdmin((Account)request.getSession().getAttribute("acc"))) response.sendRedirect("homecontroll");
+        if (!Helper.isAdmin((Account)request.getSession().getAttribute("acc"))) {
+            response.sendRedirect("homecontroll");
+            return;
+        }
         
         ProductDAO dao = new ProductDAO();
         ArrayList<Order> listOrder = dao.getListOrder();

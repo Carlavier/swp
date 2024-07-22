@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="css/footer.css">
 <!-- Footer -->
 <footer class="footer-custom bg-dark text-white">
-    <div class="container">
+    <div class="container" style="background-color: transparent; box-shadow: none; ">
         <div class="row">
             <div class="col-md-4">
                 <h5>About Us</h5>
@@ -15,13 +15,11 @@
                 <hr class="bg-primary mb-4 mt-0 d-inline-block mx-auto w-25">
                 <ul class="list-unstyled">
                     <li><a href="#" class="text-white">TERMS</a></li>
-                    <li><a href="#" class="text-white">Mixi Policy</a></li>
-                    <li><a href="#" class="text-white">Rambo Policy</a></li>
-                    <li><a href="#" class="text-white">Dev Policy</a></li>
+                    <li><a href="#" class="text-white">Hamilton Policy</a></li>
                 </ul>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <h5>Shop</h5>
                 <hr class="bg-primary mb-4 mt-0 d-inline-block mx-auto w-25">
                 <ul class="list-unstyled">
@@ -32,7 +30,7 @@
                 </ul>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <h5>Contact Us</h5>
                 <hr class="bg-primary mb-4 mt-0 d-inline-block mx-auto w-25">
                 <ul class="list-unstyled">
