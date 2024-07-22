@@ -84,9 +84,9 @@
 
     </head>
     <body>
-        <jsp:include page="Navbar.jsp"></jsp:include>
+        <jsp:include page="NavbarLight.jsp"></jsp:include>
         <p> </p>
-            <div class="container ">
+            <div class="container " style="margin-top: 128px">
                 <p> </p>
                 <h2 class="text-center">My Profile</h2>
                 <form action="processuserdata" method="post">
@@ -165,7 +165,7 @@
                 </table>
             </div>
         </div>
-                     <jsp:include page="Footer.jsp"></jsp:include>
+        <jsp:include page="Footer.jsp"></jsp:include>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

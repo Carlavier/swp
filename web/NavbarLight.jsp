@@ -13,37 +13,21 @@
         <link href="css/myStyle.css" rel="stylesheet" type="text/css"/>
         <script src="js/navbar.js"></script>
     
-
         <style>
-            .navbar-default.navbar-shrink .search-input::placeholder {
+            .search-input::placeholder {
                 color: #aaa;
             }
-            
-            .nav-link strong {
-                color: white;
-            }
-            
-            .navbar-default.navbar-shrink .nav-link strong {
-                color: black !important;
-            }
-            
-            .shopping-cart-text {
-                color: white !important;
-            }
-            
-            .navbar-default.navbar-shrink .shopping-cart-text {
-                color: black !important;
-            }
         </style>
+
 
     </head>
     
     <body>
         <!--begin of menu-->
-        <nav class="navbar navbar-expand-md navbar-dark navbar-default">
+        <nav class="navbar navbar-expand-md navbar-dark navbar-shrink navbar-default" style="background-color: white;">
             <div class="container">
                 <a class="navbar-brand" href="homecontroll">
-                    <img src="https://www.hamiltonwatch.com/static/version1721134665/frontend/Hamilton/Default/en_US/images/logo.svg" width="200" height="53" alt="Hamilton Logo " >
+                    <img style="filter: invert(0%) !important;" src="https://www.hamiltonwatch.com/static/version1721134665/frontend/Hamilton/Default/en_US/images/logo.svg" width="200" height="53" alt="Hamilton Logo " >
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -55,7 +39,7 @@
                                 <a class="nav-link" href="#"><strong> HI ${sessionScope.acc.userName}</strong></a>
                             </li>
                         </c:if>
-                        <c:if test="${sessionScope.acc.role eq 'ad' || sessionScope.acc.role eq 'st'}">
+                        <c:if test="${sessionScope.acc.role eq 'ad'}">
                             <li class="nav-item">
                                 <a class="nav-link" href="managercontrol"><strong>MANAGE STORE</strong></a>
                             </li>
@@ -97,7 +81,7 @@
                             <c:set var="quantity" value="${quantity + item.quantity}" />
                         </c:forEach>
                     </c:if>
-                    <a class=" btn-sm ml-3 cart-button d-flex align-items-center shopping-cart-text" href="Cart.jsp">
+                    <a class=" btn-sm ml-3 cart-button d-flex align-items-center" href="Cart.jsp">
                         <i class="fa fa-shopping-cart mr-2 "></i> Shopping Cart
                         <span class="badge badge-light ml-2">${quantity}</span>
                     </a>
