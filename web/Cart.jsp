@@ -62,7 +62,7 @@
     </head>
     <body>
         <jsp:include page="NavbarLight.jsp"></jsp:include>
-        <div class="shopping-cart" style="margin-top: 84px;">
+        <div class="shopping-cart" style="margin-top: 135px;">
                 <div class="px-4 px-lg-0">
                     <div class="pb-5">
                         <div class="container">
