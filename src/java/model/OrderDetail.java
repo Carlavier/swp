@@ -10,6 +10,15 @@ public class OrderDetail {
     private double price;
     private Product product;
     private Order order;
+    
+    public OrderDetail() {
+        this.detailId = detailId;
+        this.quantity = quantity;
+        this.orderId = orderId;
+        this.price = price;
+        this.product = new Product();
+        this.order = new Order();
+    }
 
     public Order getOrder() {
         return order;

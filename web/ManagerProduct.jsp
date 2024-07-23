@@ -52,10 +52,10 @@
     <body>
         <div class="left-nav">
             <h3 class="left-nav__title">Manage Store</h3>
-            <a href="/SWP/managercontrol" class="left-nav__item">Product</a>
-            <a href="/SWP/manage-user" class="left-nav__item">User</a>
+            <a href="/vnpay_jsp/managercontrol" class="left-nav__item">Product</a>
+            <a href="/vnpay_jsp/manage-user" class="left-nav__item">User</a>
             <c:if test= "${sessionScope.acc.role == 'ad'}" >
-                <a href="/SWP/report-monthly" class="left-nav__item">Report</a>
+                <a href="/vnpay_jsp/report-monthly" class="left-nav__item">Report</a>
             </c:if>
         </div>
         <div class="container">

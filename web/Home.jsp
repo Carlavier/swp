@@ -25,7 +25,7 @@
         <script>
             var isLoggedIn = ${sessionScope.acc != null};
         </script>
-        
+
 
 
     </head>
@@ -37,9 +37,7 @@
             boolean hideTopBlock = false;
 
             // Kiểm tra nếu đường dẫn chứa "/search" hoặc là trang search
-            if (currentURL != null && (currentURL.contains("/search") || currentURL.equals("/SWP/search"))) {
-                hideTopBlock = true;
-            }
+          
 
             // Kiểm tra nếu có tham số page hoặc cid trong chuỗi truy vấn
             if (queryString != null && (queryString.startsWith("page=") || queryString.startsWith("cid="))) {
@@ -89,16 +87,18 @@
                 <c:forEach items="${listP}" var="o">
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card position-relative">
-                            <img class="card-img-top" src="${o.image}" alt="Card image cap">
+                            <a href="detail?pid=${o.id}">
+                                <img class="card-img-top" src="${o.image}" alt="Card image cap">
+                            </a>
 
-                            <c:if test="${o.quantity eq 0}">
-                                <img class="sold-out-overlay" src="icons8-sold-out-64.png" alt="Sold Out">
+                            <c:if test="${o.quantity <= 5}">
+                                <img class="sold-out-overlay" src="icons8-sold-out-64.png" alt="Sold Out" >
                             </c:if>
 
                             <div class="card-body">
                                 <h4 class="card-title show_txt">
                                     <c:choose>
-                                        <c:when test="${o.quantity ne 0}">
+                                        <c:when test="${o.quantity > 5}">
                                             <a href="detail?pid=${o.id}" title="View Product" style="color: #000000">${o.name}</a>
                                         </c:when>
                                         <c:otherwise>
@@ -107,7 +107,7 @@
                                     </c:choose>
                                 </h4>
 
-                                <c:if test="${o.quantity ne 0}">
+                                <c:if test="${o.quantity > 5}">
                                     <div class="row">
                                         <div class="col">
                                             <p class="btn btn-block price-button" onclick="checkLoginClickPrice(${o.id})">

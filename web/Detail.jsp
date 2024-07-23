@@ -30,7 +30,7 @@
 
            <style>
         html, body {
-            background-color: black !important;
+            background-color: #5e4a41 !important;
             color: #fff;
             font-family: Arial, sans-serif;
         }
@@ -38,12 +38,12 @@
             margin-top: 85px;
         }
         .card {
-            background-color: #3d2e27 !important;
+            background-color: #5e4a41!important;
             border: none;
             color: #fff;
         }
         .card-body {
-            background-color: #3d2e27;
+            background-color: #5e4a41;
         }
         .btn-group-custom .btn {
             margin-right: 10px;
@@ -88,8 +88,8 @@
             align-items: stretch;
         }
         .reviews-section {
-            background-color: #fff;
-            color: #000;
+            background-color: #f5f5f5;
+            
             padding: 20px;
             border-radius: 5px;
         }
@@ -101,7 +101,7 @@
         <jsp:include page="Navbar.jsp"></jsp:include>
  <div class="container">
      <div class="row" >
-         <div class="col-sm-12  " style="background-color:#3d2e27 !important" >
+         <div class="col-sm-12  " style="background-color:#5e4a41 !important" >
                 <div class="container">
                     <div class="card">
                         <div class="row equal-height">
@@ -272,7 +272,7 @@
                 </div>
             </c:forEach>
         </div>
-
+<jsp:include page="Footer.jsp"></jsp:include>
 
 
         <script>
@@ -283,7 +283,7 @@
             });
         </script>
 
-        <jsp:include page="Footer.jsp"></jsp:include>
+        
 
 
 
