@@ -461,8 +461,8 @@ public class ProductDAO {
 //        }
 //    }
     
-    public Order createOrder(java.sql.Date orderDate, double total, int uID) {
-        String query = "INSERT INTO [dbo].[Order] (orderDate, total) VALUES (?, ?)";
+  public Order createOrder(java.sql.Date orderDate, double total, int uID) {
+        String query = "INSERT INTO [dbo].[Order] (orderDate, total, uID) VALUES (?, ? , ?)";
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet generatedKeys = null;
@@ -473,7 +473,7 @@ public class ProductDAO {
             ptm = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ptm.setDate(1, orderDate);
             ptm.setDouble(2, total);
-//            ptm.setInt(3, uID);
+            ptm.setInt(3, uID);
             ptm.executeUpdate();
 
             generatedKeys = ptm.getGeneratedKeys();
@@ -650,9 +650,9 @@ public class ProductDAO {
                                 rs.getString(11)
                         ),
                         new Order(
-                                rs.getInt(13),
-                                rs.getDate(14),
-                                rs.getDouble(15)
+                                rs.getInt(14),
+                                rs.getDate(15),
+                                rs.getDouble(16)
                         )
                 ));
             }

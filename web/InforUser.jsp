@@ -10,12 +10,12 @@
         <link href="css/myStyle.css" rel="stylesheet" type="text/css"/>
         <style>
             body {
-                background-color: #f4f4f4;
+              
                 padding-top: 50px;
                 font-family: 'Arial', sans-serif;
             }
             .container {
-                background-color: white;
+               
                 padding: 30px;
                 border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -68,11 +68,7 @@
                 background: #fff;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
-            .thead-dark th {
-                background-color: #333;
-                color: #fff;
-                border: none;
-            }
+           
             .table-striped tbody tr:nth-of-type(odd) {
                 background-color: #f9f9f9;
             }

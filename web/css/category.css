@@ -20,6 +20,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     font-weight: bold;
     padding: 10px;
     z-index: 1;  
+    
 }
 
     .sold-out-overlay {
@@ -67,6 +68,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
             .watch-image img {
                 width: 100%;
                 border-radius: 5px;
+                
             }
               .top-block {
                 position: relative;
