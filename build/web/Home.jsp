@@ -70,7 +70,7 @@
 
 
 
-        <div class="container">
+        <div class="container mt-4 mb-4">
             <div class="row">
                 <div class="col text-center"> 
                     <h3> WRIST WATCHES </h3>
@@ -85,7 +85,7 @@
         <div class="col-sm-12">
             <div class="row">
                 <c:forEach items="${listP}" var="o">
-                    <div class="col-12 col-md-6 col-lg-4">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
                         <div class="card position-relative">
                             <a href="detail?pid=${o.id}">
                                 <img class="card-img-top" src="${o.image}" alt="Card image cap">

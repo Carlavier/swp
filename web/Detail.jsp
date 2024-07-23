@@ -34,9 +34,6 @@
             color: #fff;
             font-family: Arial, sans-serif;
         }
-        .container {
-            margin-top: 85px;
-        }
         .card {
             background-color: #5e4a41!important;
             border: none;
@@ -98,8 +95,8 @@
     </head>
     
     <body>
-        <jsp:include page="Navbar.jsp"></jsp:include>
- <div class="container">
+        <jsp:include page="NavbarLight.jsp"></jsp:include>
+ <div class="container" style="margin-top: 196px;">
      <div class="row" >
          <div class="col-sm-12  " style="background-color:#5e4a41 !important" >
                 <div class="container">

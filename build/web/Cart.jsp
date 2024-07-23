@@ -61,8 +61,8 @@
         </style>
     </head>
     <body>
-        <jsp:include page="Navbar.jsp"></jsp:include>
-            <div class="shopping-cart">
+        <jsp:include page="NavbarLight.jsp"></jsp:include>
+        <div class="shopping-cart" style="margin-top: 84px;">
                 <div class="px-4 px-lg-0">
                     <div class="pb-5">
                         <div class="container">
